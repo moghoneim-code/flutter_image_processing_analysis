@@ -21,10 +21,10 @@ The entire codebase is fully documented with **DartDoc comments**. Hovering over
 
 
 
-https://github.com/user-attachments/assets/fd53a4a1-2254-49db-a241-e58850256cdc
 
 
 
+![image_processing_dart_doc_gif](https://github.com/user-attachments/assets/f0d30d7d-d414-4b5a-9155-85b49734da19)
 
 
 ## Architecture
