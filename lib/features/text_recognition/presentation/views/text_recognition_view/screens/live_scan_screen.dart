@@ -32,12 +32,12 @@ class LiveScanScreen extends GetView<LiveTextController> {
                     fit: BoxFit.cover,
                     child: SizedBox(
                       width: controller
-                          ?.cameraController!
+                          .cameraController!
                           .value
                           .previewSize!
                           .height,
                       height: controller
-                          ?.cameraController!
+                          .cameraController!
                           .value
                           .previewSize!
                           .width,

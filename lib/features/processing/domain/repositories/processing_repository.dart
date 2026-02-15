@@ -1,5 +1,6 @@
 import 'dart:io';
-import '../../../../core/utils/constants/enums/processing_type.dart';
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
+import '../../../../core/services/ml_services/ml_service.dart';
 
 /// Abstract repository interface for image processing operations.
 ///
@@ -8,14 +9,20 @@ import '../../../../core/utils/constants/enums/processing_type.dart';
 /// Implementations such as [ProcessingRepositoryImpl] provide the
 /// concrete logic using [MLService] and [ImagePreProcessor].
 abstract class ProcessingRepository {
-  /// Analyzes the [image] and returns its detected [ProcessingType].
-  Future<ProcessingType> analyzeImage(File image);
+  /// Downscales the [image] to a safe processing size to prevent OOM.
+  ///
+  /// Returns the resized [File].
+  Future<File> resizeForProcessing(File image);
 
-  /// Creates a face composite from the [image] where detected faces
-  /// are rendered in grayscale over the original color image.
+  /// Analyzes the [image] and returns an [AnalysisResult] containing
+  /// the detected type and any cached ML Kit data (e.g. face list).
+  Future<AnalysisResult> analyzeImage(File image);
+
+  /// Creates a face composite from the [image] using the provided
+  /// [faces] list (cached from analysis) instead of re-running detection.
   ///
   /// Returns the processed [File].
-  Future<File> processFaceComposite(File image);
+  Future<File> processFaceComposite(File image, List<Face> faces);
 
   /// Enhances the [image] for document scanning by applying
   /// grayscale conversion and contrast adjustment.

@@ -22,7 +22,7 @@ class PdfService {
     try {
       final pdf = pw.Document();
 
-      final image = pw.MemoryImage(imageFile.readAsBytesSync());
+      final image = pw.MemoryImage(await imageFile.readAsBytes());
 
       pdf.addPage(
         pw.Page(

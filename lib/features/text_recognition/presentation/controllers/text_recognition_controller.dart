@@ -55,6 +55,9 @@ class TextRecognitionController extends GetxController {
   /// Whether an OCR or export operation is currently in progress.
   final RxBool isProcessing = false.obs;
 
+  /// The current search query for highlighting text within results.
+  final RxString searchQuery = ''.obs;
+
   /// Creates a [TextRecognitionController] with the required use cases.
   TextRecognitionController({
     required this.recognizeTextUseCase,

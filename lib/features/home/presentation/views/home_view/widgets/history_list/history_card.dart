@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../../../../../../../core/shared/widgets/text/highlighted_text.dart';
 import '../../../../../../../core/utils/constants/colors/app_colors.dart';
 
 /// A card widget representing a single history record in the list.
@@ -33,6 +34,9 @@ class HistoryCard extends StatelessWidget {
   /// Optional file path to an image thumbnail for this entry.
   final String? imagePath;
 
+  /// The current search query for highlighting matched text in the title.
+  final String searchQuery;
+
   /// Creates a [HistoryCard] with the given display properties.
   const HistoryCard({
     super.key,
@@ -42,6 +46,7 @@ class HistoryCard extends StatelessWidget {
     required this.onTap,
     this.isPdf = false,
     this.imagePath,
+    this.searchQuery = '',
   });
 
   Widget _buildLeading() {
@@ -93,8 +98,9 @@ class HistoryCard extends StatelessWidget {
         onTap: onTap,
         contentPadding: const EdgeInsets.all(12),
         leading: _buildLeading(),
-        title: Text(
-          title,
+        title: HighlightedText(
+          text: title,
+          query: searchQuery,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w600),

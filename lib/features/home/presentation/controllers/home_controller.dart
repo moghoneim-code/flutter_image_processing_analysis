@@ -40,11 +40,23 @@ class HomeController extends GetxController {
   /// Reactive list of history records displayed in the UI.
   var historyList = <HistoryModel>[].obs;
 
+  /// The current search query for filtering history items.
+  final RxString searchQuery = ''.obs;
+
   /// Whether the history list is currently being loaded.
   var isLoading = true.obs;
 
   /// Holds the current failure state, or `null` if no error occurred.
   var failure = Rxn<Failure>();
+
+  /// Returns history items filtered by [searchQuery] (case-insensitive).
+  ///
+  /// When the query is empty, all items are returned.
+  List<HistoryModel> get filteredHistoryList {
+    if (searchQuery.value.isEmpty) return historyList;
+    final query = searchQuery.value.toLowerCase();
+    return historyList.where((item) => item.result.toLowerCase().contains(query)).toList();
+  }
 
   @override
   void onInit() {

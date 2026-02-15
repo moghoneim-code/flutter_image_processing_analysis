@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:flutter_image_processing_analysis/features/processing/domain/repositories/processing_repository.dart';
 import 'package:flutter_image_processing_analysis/features/processing/domain/use_cases/process_image_use_case.dart';
 import 'package:flutter_image_processing_analysis/core/errors/failures.dart';
 import 'package:flutter_image_processing_analysis/core/utils/constants/enums/processing_type.dart';
+import 'package:flutter_image_processing_analysis/core/services/ml_services/ml_service.dart';
 
 /// A fake repository that returns pre-configured results based on content type.
 class FakeProcessingRepository extends ProcessingRepository {
@@ -18,13 +20,21 @@ class FakeProcessingRepository extends ProcessingRepository {
   });
 
   @override
-  Future<ProcessingType> analyzeImage(File image) async {
-    if (shouldThrow) throw Exception('ML Kit crashed');
-    return contentType;
+  Future<File> resizeForProcessing(File image) async {
+    return image;
   }
 
   @override
-  Future<File> processFaceComposite(File image) async {
+  Future<AnalysisResult> analyzeImage(File image) async {
+    if (shouldThrow) throw Exception('ML Kit crashed');
+    return AnalysisResult(
+      type: contentType,
+      faces: contentType == ProcessingType.face ? [] : null,
+    );
+  }
+
+  @override
+  Future<File> processFaceComposite(File image, List<Face> faces) async {
     return File('${image.path}_face_composite.jpg');
   }
 

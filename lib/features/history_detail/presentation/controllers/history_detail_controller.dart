@@ -38,6 +38,9 @@ class HistoryDetailController extends GetxController {
   /// Whether an async action is currently in progress.
   final isProcessing = false.obs;
 
+  /// The current search query for highlighting text within results.
+  final RxString searchQuery = ''.obs;
+
   @override
   void onInit() {
     super.onInit();

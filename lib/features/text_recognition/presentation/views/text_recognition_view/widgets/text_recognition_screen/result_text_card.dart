@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../../core/shared/widgets/text/highlighted_text.dart';
+import '../../../../../../../core/shared/widgets/text_fields/search_text_field.dart';
 import '../../../../../../../core/utils/constants/colors/app_colors.dart';
 import '../../../../controllers/text_recognition_controller.dart';
 
@@ -37,9 +39,15 @@ class ResultTextCard extends GetView<TextRecognitionController> {
                   : Icon(Icons.auto_awesome, color: AppColors.greatGreyOwl, size: 18)),
             ],
           ),
+          const SizedBox(height: 12),
+          SearchTextField(
+            hint: 'Search in detected text...',
+            onChanged: (value) => controller.searchQuery.value = value,
+          ),
           const SizedBox(height: 16),
-          Obx(() => SelectableText(
-            controller.recognizedText.value.isEmpty ? "Waiting for Owl to scan..." : controller.recognizedText.value,
+          Obx(() => HighlightedText(
+            text: controller.recognizedText.value.isEmpty ? "Waiting for Owl to scan..." : controller.recognizedText.value,
+            query: controller.searchQuery.value,
             style: TextStyle(color: AppColors.white.withValues(alpha: 0.9), fontSize: 15, height: 1.6),
           )),
         ],

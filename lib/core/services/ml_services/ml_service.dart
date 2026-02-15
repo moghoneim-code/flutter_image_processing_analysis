@@ -4,16 +4,31 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import '../../errors/failures.dart';
 import '../../utils/constants/enums/processing_type.dart';
 
+/// Holds the result of content-type analysis including any detected data.
+///
+/// [AnalysisResult] avoids redundant ML Kit calls by caching the face
+/// list or recognized text that was already produced during classification.
+class AnalysisResult {
+  /// The detected content type.
+  final ProcessingType type;
+
+  /// Faces detected during classification (non-null only for [ProcessingType.face]).
+  final List<Face>? faces;
+
+  AnalysisResult({required this.type, this.faces});
+}
+
 /// Service that wraps Google ML Kit for face detection and text recognition.
 ///
 /// [MLService] provides methods to classify image content, detect faces,
 /// and extract text using on-device machine learning models.
 class MLService {
-  /// Face detector configured for accurate mode with tracking enabled.
+  /// Face detector using fast mode — sufficient for classification and
+  /// bounding-box extraction while being significantly cheaper than accurate mode.
   final FaceDetector _faceDetector = FaceDetector(
     options: FaceDetectorOptions(
       enableTracking: true,
-      performanceMode: FaceDetectorMode.accurate,
+      performanceMode: FaceDetectorMode.fast,
     ),
   );
 
@@ -24,39 +39,28 @@ class MLService {
 
   /// Analyzes the given [imageFile] and determines its content type.
   ///
-  /// Returns [ProcessingType.face] if faces are detected,
-  /// [ProcessingType.document] if text is found, or
-  /// [ProcessingType.none] if neither is detected.
+  /// Returns an [AnalysisResult] containing the [ProcessingType] and,
+  /// for face images, the detected [Face] list so callers can reuse it
+  /// without running face detection a second time.
   ///
   /// Throws a [ProcessingFailure] if analysis fails.
-  Future<ProcessingType> detectContentType(File imageFile) async {
+  Future<AnalysisResult> analyzeContent(File imageFile) async {
     try {
       final inputImage = InputImage.fromFile(imageFile);
 
       final faces = await _faceDetector.processImage(inputImage);
-      if (faces.isNotEmpty) return ProcessingType.face;
+      if (faces.isNotEmpty) {
+        return AnalysisResult(type: ProcessingType.face, faces: faces);
+      }
 
       final recognizedText = await _textRecognizer.processImage(inputImage);
-      if (recognizedText.text.trim().isNotEmpty) return ProcessingType.document;
+      if (recognizedText.text.trim().isNotEmpty) {
+        return AnalysisResult(type: ProcessingType.document);
+      }
 
-      return ProcessingType.none;
+      return AnalysisResult(type: ProcessingType.none);
     } catch (e) {
       throw ProcessingFailure('Failed to detect content type: $e');
-    }
-  }
-
-  /// Detects all faces in the given [imageFile].
-  ///
-  /// Returns a list of [Face] objects representing detected faces
-  /// with bounding boxes and tracking information.
-  ///
-  /// Throws a [ProcessingFailure] if face detection fails.
-  Future<List<Face>> getFaces(File imageFile) async {
-    try {
-      final inputImage = InputImage.fromFile(imageFile);
-      return await _faceDetector.processImage(inputImage);
-    } catch (e) {
-      throw ProcessingFailure('Failed to detect faces: $e');
     }
   }
 

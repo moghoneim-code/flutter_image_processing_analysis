@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../../../../core/shared/widgets/text/highlighted_text.dart';
+import '../../../../../../../core/shared/widgets/text_fields/search_text_field.dart';
 import '../../../../../../../core/utils/constants/colors/app_colors.dart';
 import '../../../../controllers/history_detail_controller.dart';
 
@@ -42,15 +44,21 @@ class DetailResultCard extends GetView<HistoryDetailController> {
               Icon(Icons.auto_awesome, color: AppColors.greatGreyOwl, size: 18),
             ],
           ),
+          const SizedBox(height: 12),
+          SearchTextField(
+            hint: 'Search in result...',
+            onChanged: (value) => controller.searchQuery.value = value,
+          ),
           const SizedBox(height: 16),
-          SelectableText(
-            controller.historyItem.result,
+          Obx(() => HighlightedText(
+            text: controller.historyItem.result,
+            query: controller.searchQuery.value,
             style: TextStyle(
               color: AppColors.white.withValues(alpha: 0.9),
               fontSize: 15,
               height: 1.6,
             ),
-          ),
+          )),
         ],
       ),
     );

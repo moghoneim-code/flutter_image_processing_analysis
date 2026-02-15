@@ -1,8 +1,8 @@
 import 'dart:io';
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/services/image_processing/image_pre_processor.dart';
 import '../../../../core/services/ml_services/ml_service.dart';
-import '../../../../core/utils/constants/enums/processing_type.dart';
 import '../../domain/repositories/processing_repository.dart';
 
 /// Concrete implementation of [ProcessingRepository].
@@ -21,9 +21,20 @@ class ProcessingRepositoryImpl implements ProcessingRepository {
   ProcessingRepositoryImpl(this._mlService, this._preProcessor);
 
   @override
-  Future<ProcessingType> analyzeImage(File image) async {
+  Future<File> resizeForProcessing(File image) async {
     try {
-      return await _mlService.detectContentType(image);
+      return await _preProcessor.resizeForProcessing(image);
+    } on Failure {
+      rethrow;
+    } catch (e) {
+      throw ProcessingFailure('Failed to resize image: $e');
+    }
+  }
+
+  @override
+  Future<AnalysisResult> analyzeImage(File image) async {
+    try {
+      return await _mlService.analyzeContent(image);
     } on ProcessingFailure {
       rethrow;
     } catch (e) {
@@ -32,9 +43,8 @@ class ProcessingRepositoryImpl implements ProcessingRepository {
   }
 
   @override
-  Future<File> processFaceComposite(File image) async {
+  Future<File> processFaceComposite(File image, List<Face> faces) async {
     try {
-      final faces = await _mlService.getFaces(image);
       return await _preProcessor.createFaceComposite(image, faces);
     } on Failure {
       rethrow;

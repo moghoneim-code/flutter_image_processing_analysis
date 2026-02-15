@@ -49,9 +49,6 @@ class ProcessingController extends GetxController {
 
       final result = await _processImageUseCase.execute(originalImage);
 
-      _updateUI(0.7, "Synthesizing pixels...");
-      await Future.delayed(const Duration(milliseconds: 600));
-
       _updateUI(1.0, "Process Complete!");
       _handleNavigation(result);
     } catch (e) {
@@ -83,8 +80,6 @@ class ProcessingController extends GetxController {
       return;
     }
 
-    Future.delayed(const Duration(milliseconds: 300), () {
-      Get.offNamed(route, arguments: result);
-    });
+    Get.offNamed(route, arguments: result);
   }
 }

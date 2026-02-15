@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../../core/models/ui_models/error_params.dart';
 import '../../../../../../core/shared/widgets/error/app_error_widget.dart';
+import '../../../../../../core/shared/widgets/text_fields/search_text_field.dart';
 import '../../../../../../core/utils/constants/colors/app_colors.dart';
 import '../../../../../../core/utils/widgets/custom_bottom_sheets.dart';
 import '../../../controllers/home_controller.dart';
@@ -31,6 +32,14 @@ class HomeScreen extends GetView<HomeController> {
         child: Column(
           children: [
             const HomeHeader(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SearchTextField(
+                hint: 'Search history...',
+                onChanged: (value) => controller.searchQuery.value = value,
+              ),
+            ),
+            const SizedBox(height: 12),
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
@@ -47,7 +56,14 @@ class HomeScreen extends GetView<HomeController> {
                 if (controller.historyList.isEmpty) {
                   return const EmptyHistoryView();
                 }
-                return HistoryListView(items: controller.historyList);
+                final filtered = controller.filteredHistoryList;
+                if (filtered.isEmpty) {
+                  return const EmptyHistoryView();
+                }
+                return HistoryListView(
+                  items: filtered,
+                  searchQuery: controller.searchQuery.value,
+                );
               }),
             ),
           ],

@@ -18,10 +18,14 @@ class HistoryListView extends GetView<HomeController> {
   /// The list of history records to render.
   final List<HistoryModel> items;
 
+  /// The current search query for highlighting matched text.
+  final String searchQuery;
+
   /// Creates a [HistoryListView] with the given [items].
   const HistoryListView({
     super.key,
     required this.items,
+    this.searchQuery = '',
   });
 
   @override
@@ -67,6 +71,7 @@ class HistoryListView extends GetView<HomeController> {
             icon: getIcon(),
             isPdf: item.type == ProcessingType.document,
             imagePath: item.imagePath,
+            searchQuery: searchQuery,
             onTap: () {
               Get.toNamed(AppRoutes.historyDetail, arguments: item);
             },
