@@ -1,8 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../../../../core/utils/utils/constants/colors/app_colors.dart';
+import '../../../../../../core/utils/constants/colors/app_colors.dart';
 
+/// Animated scanning line that sweeps vertically across its parent.
+///
+/// [ScanningLineEffect] creates a glowing horizontal line that
+/// animates up and down continuously, simulating a scanning effect
+/// over the image preview during processing.
 class ScanningLineEffect extends StatefulWidget {
+  /// Creates a [ScanningLineEffect] instance.
   const ScanningLineEffect({super.key});
 
   @override
@@ -11,6 +17,7 @@ class ScanningLineEffect extends StatefulWidget {
 
 class _ScanningLineEffectState extends State<ScanningLineEffect>
     with SingleTickerProviderStateMixin {
+  /// Animation controller driving the vertical sweep.
   late AnimationController _controller;
 
   @override

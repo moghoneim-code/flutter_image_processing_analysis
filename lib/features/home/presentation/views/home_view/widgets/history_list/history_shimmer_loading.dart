@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../../../../../core/utils/utils/constants/colors/app_colors.dart';
+import '../../../../../../../core/utils/constants/colors/app_colors.dart';
 
+/// Shimmer loading placeholder displayed while history data is being fetched.
+///
+/// [HistoryShimmerLoading] renders five shimmer card skeletons that
+/// mimic the layout of [HistoryCard] to provide visual feedback
+/// during the loading state.
 class HistoryShimmerLoading extends StatelessWidget {
+  /// Creates a [HistoryShimmerLoading] instance.
   const HistoryShimmerLoading({super.key});
 
   @override
@@ -20,7 +26,7 @@ class HistoryShimmerLoading extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 16),
             height: 80,
             decoration: BoxDecoration(
-              color: Colors.white, // لازم لون عشان الشيمر يظهر
+              color: Colors.white,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(

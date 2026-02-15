@@ -1,16 +1,19 @@
-// lib/features/processing/presentation/views/widgets/ambient_background_blur.dart
-
 import 'package:flutter/material.dart';
-import '../../../../../../core/utils/utils/constants/colors/app_colors.dart';
+import '../../../../../../core/utils/constants/colors/app_colors.dart';
 
+/// Decorative background widget with ambient glowing circles.
+///
+/// [AmbientBackgroundBlur] renders two semi-transparent circular
+/// shapes positioned at the top-right and bottom-left corners
+/// to create a subtle ambient glow effect behind the processing UI.
 class AmbientBackgroundBlur extends StatelessWidget {
+  /// Creates an [AmbientBackgroundBlur] instance.
   const AmbientBackgroundBlur({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // دائرة متوهجة في أعلى اليمين
         Positioned(
           top: -100,
           right: -50,
@@ -19,13 +22,10 @@ class AmbientBackgroundBlur extends StatelessWidget {
             height: 300,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              // بنستخدم لون الـ Owl الأساسي مع شفافية عالية جداً
               color: AppColors.burrowingOwl.withOpacity(0.08),
             ),
           ),
         ),
-
-        // دائرة خفيفة في أسفل اليسار للتوازن البصري
         Positioned(
           bottom: -50,
           left: -50,

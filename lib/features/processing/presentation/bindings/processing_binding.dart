@@ -6,22 +6,23 @@ import '../../domain/repositories/i_processing_repository.dart';
 import '../../domain/use_cases/process_image_use_case.dart';
 import '../controllers/processing_controller.dart';
 
+/// GetX binding that registers all dependencies for the processing route.
+///
+/// [ProcessingBinding] injects [MLService], [ImagePreProcessor],
+/// [ProcessingRepositoryImpl], [ProcessImageUseCase], and
+/// [ProcessingController] when the `/processing` route is accessed.
 class ProcessingBinding extends Bindings {
   @override
   void dependencies() {
-    // 1. Data Sources / Services
     Get.lazyPut(() => MLService());
     Get.lazyPut(() => ImagePreProcessor());
 
-    // 2. Repository Implementation
     Get.lazyPut<IProcessingRepository>(
             () => ProcessingRepositoryImpl(Get.find(), Get.find())
     );
 
-    // 3. Use Case
     Get.lazyPut(() => ProcessImageUseCase(Get.find()));
 
-    // 4. Controller
     Get.put(ProcessingController(Get.find()));
   }
 }

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_processing_analysis/core/helper/snackbar_helper.dart';
-import '../../../../../../core/utils/utils/constants/colors/app_colors.dart';
-import '../../../../../../core/utils/utils/constants/strings/app_images.dart';
+import '../../../../../../core/utils/constants/colors/app_colors.dart';
+import '../../../../../../core/utils/constants/strings/app_images.dart';
 
+/// Header widget displayed at the top of the [HomeScreen].
+///
+/// [HomeHeader] shows the application logo, brand name, and a
+/// decorative action button in a horizontal row layout.
 class HomeHeader extends StatelessWidget {
+  /// Creates a [HomeHeader] instance.
   const HomeHeader({super.key});
 
   @override

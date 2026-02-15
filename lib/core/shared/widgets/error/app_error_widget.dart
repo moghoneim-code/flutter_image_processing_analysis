@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 
 import '../../../models/ui_models/error_params.dart';
-import '../../../utils/utils/constants/colors/app_colors.dart';
+import '../../../utils/constants/colors/app_colors.dart';
 
+/// A reusable error display widget with an optional retry button.
+///
+/// [AppErrorWidget] renders a centered error icon, title, message,
+/// and a conditional "Try Again" button based on the provided
+/// [ErrorParams] configuration.
+///
+/// Required data:
+/// - [params]: An [ErrorParams] instance containing the error
+///   [ErrorParams.message], optional [ErrorParams.title], and
+///   optional [ErrorParams.onRetry] callback.
 class AppErrorWidget extends StatelessWidget {
+  /// The error configuration parameters controlling the display.
   final ErrorParams params;
 
+  /// Creates an [AppErrorWidget] with the given [params].
   const AppErrorWidget({super.key, required this.params});
 
   @override

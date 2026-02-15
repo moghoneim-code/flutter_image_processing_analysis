@@ -5,10 +5,19 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../../../../core/utils/utils/constants/colors/app_colors.dart';
+import '../../../../../../../core/utils/constants/colors/app_colors.dart';
 import '../../../../controllers/text_recognition_controller.dart';
-// lib/features/text_recognition/presentation/views/widgets/picker_source_sheet.dart
+
+/// A bottom sheet that presents image source options for picking a new image.
+///
+/// [PickerSourceSheet] displays two options:
+/// - **Gallery**: Opens the device photo gallery via [ImageSource.gallery].
+/// - **Camera**: Opens the device camera via [ImageSource.camera].
+///
+/// Selecting an option dismisses the sheet and triggers
+/// [TextRecognitionController.pickNewImage] with the chosen source.
 class PickerSourceSheet extends GetView<TextRecognitionController> {
+  /// Creates a [PickerSourceSheet] widget.
   const PickerSourceSheet({super.key});
 
   @override
@@ -33,6 +42,12 @@ class PickerSourceSheet extends GetView<TextRecognitionController> {
     );
   }
 
+  /// Builds a single selectable option tile for the bottom sheet.
+  ///
+  /// - [icon]: The leading icon for the option.
+  /// - [label]: The display text for the option.
+  /// - [color]: The icon color.
+  /// - [onTap]: Callback invoked when the option is selected.
   Widget _buildOption(IconData icon, String label, Color color, VoidCallback onTap) {
     return ListTile(
       onTap: () { Get.back(); onTap(); },

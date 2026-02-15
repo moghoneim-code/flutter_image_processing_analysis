@@ -1,15 +1,24 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart'; // ضفنا الـ Get عشان الـ GetView
-import 'package:open_filex/open_filex.dart';
-import '../../../../../../../core/utils/utils/constants/enums/ProcessingType.dart';
+import 'package:get/get.dart';
+import '../../../../../../../config/routes/app_routes.dart';
+import '../../../../../../../core/utils/constants/enums/processing_type.dart';
 import '../../../../../data/models/history_model.dart';
 import '../../../../controllers/home_controller.dart';
 import 'history_card.dart';
 
+/// Scrollable list view displaying processing history records.
+///
+/// [HistoryListView] renders a [ListView] of [HistoryCard] widgets,
+/// each representing a [HistoryModel] record. Items support swipe-to-delete
+/// via [Dismissible] and tap-to-open via [OpenFilex].
+///
+/// Required data:
+/// - [items]: The list of [HistoryModel] records to display.
 class HistoryListView extends GetView<HomeController> {
+  /// The list of history records to render.
   final List<HistoryModel> items;
 
+  /// Creates a [HistoryListView] with the given [items].
   const HistoryListView({
     super.key,
     required this.items,
@@ -57,12 +66,9 @@ class HistoryListView extends GetView<HomeController> {
             subTitle: item.dateTime,
             icon: getIcon(),
             isPdf: item.type == ProcessingType.document,
-            onTap: () async {
-              if (item.type == ProcessingType.document || item.type == ProcessingType.text) {
-                await OpenFilex.open(item.imagePath);
-              } else {
-                log("Opening Text Result: ${item.result}");
-              }
+            imagePath: item.imagePath,
+            onTap: () {
+              Get.toNamed(AppRoutes.historyDetail, arguments: item);
             },
           ),
         );

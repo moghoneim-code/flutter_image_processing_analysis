@@ -4,41 +4,56 @@ import '../../../features/home/data/models/history_model.dart';
 import '../../errors/failures.dart';
 import 'app_database.dart';
 
+/// SQLite implementation of the [AppDatabase] interface.
+///
+/// [SqliteDatabaseImpl] manages a local SQLite database named
+/// `imageflow_history.db` with a single `history` table. It handles
+/// initialization, CRUD operations, and connection lifecycle.
 class SqliteDatabaseImpl implements AppDatabase {
+  /// Internal reference to the SQLite database instance.
   Database? _db;
 
   @override
   Future<void> init() async {
-    if (_db != null) return;
+    try {
+      if (_db != null) return;
 
-    final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'imageflow_history.db');
+      final dbPath = await getDatabasesPath();
+      final path = join(dbPath, 'imageflow_history.db');
 
-    _db = await openDatabase(
-      path,
-      version: 2,
-      onCreate: (db, version) async {
-        await db.execute('''
-          CREATE TABLE history (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            imagePath TEXT NOT NULL,
-            result TEXT NOT NULL,
-            dateTime TEXT NOT NULL,
-            type TEXT NOT NULL
-          )
-        ''');
-      },
-    );
+      _db = await openDatabase(
+        path,
+        version: 2,
+        onCreate: (db, version) async {
+          await db.execute('''
+            CREATE TABLE history (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              imagePath TEXT NOT NULL,
+              result TEXT NOT NULL,
+              dateTime TEXT NOT NULL,
+              type TEXT NOT NULL
+            )
+          ''');
+        },
+      );
+    } catch (e) {
+      throw const DatabaseFailure('Failed to initialize database.');
+    }
   }
 
   @override
   Future<int> insert(HistoryModel history) async {
-    if (_db == null) await init();
-    return await _db!.insert(
-      'history',
-      history.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    try {
+      if (_db == null) await init();
+      return await _db!.insert(
+        'history',
+        history.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } catch (e) {
+      if (e is DatabaseFailure) rethrow;
+      throw const DatabaseFailure('Failed to save history item.');
+    }
   }
 
   @override
@@ -55,12 +70,17 @@ class SqliteDatabaseImpl implements AppDatabase {
 
   @override
   Future<int> delete(int id) async {
-    if (_db == null) await init();
-    return await _db!.delete(
-      'history',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    try {
+      if (_db == null) await init();
+      return await _db!.delete(
+        'history',
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+    } catch (e) {
+      if (e is DatabaseFailure) rethrow;
+      throw const DatabaseFailure('Failed to delete history item.');
+    }
   }
 
   @override

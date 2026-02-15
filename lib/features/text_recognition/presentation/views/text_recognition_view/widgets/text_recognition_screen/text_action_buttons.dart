@@ -1,13 +1,19 @@
-// lib/features/text_recognition/presentation/views/widgets/text_action_buttons.dart
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 
-import '../../../../../../../core/utils/utils/constants/colors/app_colors.dart';
+import '../../../../../../../core/utils/constants/colors/app_colors.dart';
 import '../../../../controllers/text_recognition_controller.dart';
-// lib/features/text_recognition/presentation/views/widgets/text_action_buttons.dart
+
+/// A row of action buttons for copying and sharing recognized text.
+///
+/// [TextActionButtons] provides two side-by-side buttons:
+/// - **COPY**: Copies the recognized text to the clipboard via
+///   [TextRecognitionController.copyToClipboard].
+/// - **SHARE**: Opens the platform share sheet via
+///   [TextRecognitionController.shareText].
 class TextActionButtons extends GetView<TextRecognitionController> {
+  /// Creates a [TextActionButtons] widget.
   const TextActionButtons({super.key});
 
   @override
@@ -32,6 +38,14 @@ class TextActionButtons extends GetView<TextRecognitionController> {
     );
   }
 
+  /// Builds a flat action button with a solid background and border.
+  ///
+  /// - [label]: The button text label.
+  /// - [icon]: The leading icon.
+  /// - [bgColor]: The background color.
+  /// - [borderColor]: The border color.
+  /// - [textColor]: The text and icon color.
+  /// - [onTap]: Callback invoked on button press.
   Widget _buildButton({required String label, required IconData icon, required Color bgColor, required Color borderColor, required Color textColor, required VoidCallback onTap}) {
     return Expanded(
       child: InkWell(
@@ -56,6 +70,11 @@ class TextActionButtons extends GetView<TextRecognitionController> {
     );
   }
 
+  /// Builds a gradient-styled action button using the app primary gradient.
+  ///
+  /// - [label]: The button text label.
+  /// - [icon]: The leading icon.
+  /// - [onTap]: Callback invoked on button press.
   Widget _buildGradientButton({required String label, required IconData icon, required VoidCallback onTap}) {
     return Expanded(
       child: InkWell(

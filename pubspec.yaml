@@ -38,6 +38,7 @@ dependencies:
 
   cupertino_icons: ^1.0.8
   shimmer: ^3.0.0
+  image_compare_slider: ^2.8.0
 
 
   ####### State management #######

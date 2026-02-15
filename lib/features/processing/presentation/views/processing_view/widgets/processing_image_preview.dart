@@ -2,10 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_image_processing_analysis/features/processing/presentation/views/processing_view/widgets/scanning_line_effect.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 
-import '../../../../../../core/utils/utils/constants/colors/app_colors.dart';
+import '../../../../../../core/utils/constants/colors/app_colors.dart';
 import '../../../controllers/processing_controller.dart';
 
+/// Preview widget showing the selected image with a scanning effect overlay.
+///
+/// [ProcessingImagePreview] displays the original image file from
+/// [ProcessingController.originalImage] inside a rounded container
+/// with the [ScanningLineEffect] animation layered on top.
 class ProcessingImagePreview extends GetView<ProcessingController> {
+  /// Creates a [ProcessingImagePreview] instance.
   const ProcessingImagePreview({super.key});
 
   @override

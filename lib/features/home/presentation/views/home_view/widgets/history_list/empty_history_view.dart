@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../../core/utils/utils/constants/colors/app_colors.dart';
+import '../../../../../../../core/utils/constants/colors/app_colors.dart';
 
+/// Placeholder widget displayed when the history list is empty.
+///
+/// [EmptyHistoryView] shows a centered icon and message encouraging
+/// the user to start processing images.
 class EmptyHistoryView extends StatelessWidget {
+  /// Creates an [EmptyHistoryView] instance.
   const EmptyHistoryView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(

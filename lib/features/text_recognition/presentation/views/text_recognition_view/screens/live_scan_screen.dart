@@ -1,22 +1,30 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../../../core/utils/utils/constants/colors/app_colors.dart';
+import '../../../../../../core/utils/constants/colors/app_colors.dart';
 import '../../../controllers/live_text_controller.dart';
 
+/// Full-screen live camera OCR scanning interface.
+///
+/// [LiveScanScreen] displays the device camera feed in real-time and
+/// overlays the recognized text at the top of the screen. It provides
+/// controls for pausing/resuming the scan, capturing and saving the
+/// current result, and closing the screen.
+///
+/// This screen is bound to [LiveTextController] via [LiveScanBinding]
+/// and accessed through the `/live-text-recognition` route.
 class LiveScanScreen extends GetView<LiveTextController> {
+  /// Creates a [LiveScanScreen] widget.
   const LiveScanScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // استخدمنا GetBuilder بدون init لأننا سنحقنه عبر الـ Binding
     return GetBuilder<LiveTextController>(
       builder: (controller) {
         return Scaffold(
           backgroundColor: Colors.black,
           body: Stack(
             children: [
-              // 1. عرض الكاميرا كخلفية
               if (controller.cameraController != null &&
                   controller.cameraController!.value.isInitialized)
                 Positioned.fill(
@@ -38,15 +46,12 @@ class LiveScanScreen extends GetView<LiveTextController> {
                   ),
                 )
               else
-                /// replace with a loading indicator while the camera is initializing
                 Center(
                   child: CircularProgressIndicator(color: AppColors.elfOwl),
                 ),
 
-              // 2. طبقة علوية (Overlay) لإظهار النص المكتشف
               _buildTopOverlay(),
 
-              // 3. أزرار التحكم السفلى
               _buildBottomControls(),
             ],
           ),
@@ -55,6 +60,10 @@ class LiveScanScreen extends GetView<LiveTextController> {
     );
   }
 
+  /// Builds the semi-transparent overlay displaying the recognized text.
+  ///
+  /// Positioned at the top of the screen and updates reactively via
+  /// [LiveTextController.recognizedText].
   Widget _buildTopOverlay() {
     return Positioned(
       top: 60,
@@ -82,6 +91,11 @@ class LiveScanScreen extends GetView<LiveTextController> {
     );
   }
 
+  /// Builds the bottom control bar with close, capture, and pause buttons.
+  ///
+  /// The capture button triggers [LiveTextController.captureAndSave] to
+  /// take a photo and persist the recognized text. The pause button
+  /// toggles the live scanning state.
   Widget _buildBottomControls() {
     return Positioned(
       bottom: 40,
@@ -90,7 +104,6 @@ class LiveScanScreen extends GetView<LiveTextController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          // زر العودة
           CircleAvatar(
             backgroundColor: Colors.black26,
             child: IconButton(
@@ -98,7 +111,6 @@ class LiveScanScreen extends GetView<LiveTextController> {
               onPressed: () => Get.back(),
             ),
           ),
-          // زر الحفظ (Capture) باستخدام المسمى الجديد في الكنترولر
           GestureDetector(
             onTap: () => controller.captureAndSave(),
             child: Container(
@@ -116,7 +128,6 @@ class LiveScanScreen extends GetView<LiveTextController> {
               ),
             ),
           ),
-          // زر التثبيت/الإيقاف المؤقت
           CircleAvatar(
             backgroundColor: Colors.black26,
             child: IconButton(

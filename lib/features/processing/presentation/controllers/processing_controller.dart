@@ -1,24 +1,34 @@
 import 'dart:io';
-import 'package:flutter_image_processing_analysis/config/routes/app_routes.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_navigation/src/snackbar/snackbar.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import '../../../../core/services/image_processing/image_pre_processor.dart';
-import '../../../../core/services/ml_services/ml_service.dart';
-import '../../../../core/utils/utils/constants/colors/app_colors.dart';
-import '../../../../core/utils/utils/constants/enums/ProcessingType.dart';
-import '../../domain/entities/processing_result.dart';
+import 'package:get/get.dart';
+import '../../../../config/routes/app_routes.dart';
+import '../../../../core/errors/error_handler.dart';
+import '../../../../core/helper/snackbar_helper.dart';
+import '../../../../core/utils/constants/enums/processing_type.dart';
 import '../../domain/use_cases/process_image_use_case.dart';
+import '../../domain/entities/processing_result.dart';
 
+/// Controller managing the image processing screen state.
+///
+/// [ProcessingController] receives an image [File] via route arguments,
+/// runs the [ProcessImageUseCase] pipeline, and navigates to the
+/// appropriate result screen based on the detected content type.
+///
+/// The UI reacts to [statusMessage] and [progress] to display
+/// real-time processing feedback.
 class ProcessingController extends GetxController {
+  /// The use case that orchestrates the processing pipeline.
   final ProcessImageUseCase _processImageUseCase;
+
+  /// Creates a [ProcessingController] with the given use case.
   ProcessingController(this._processImageUseCase);
 
-  final statusMessage = "Initializing Owl AI...".obs;
+  /// Reactive status message displayed during processing.
+  final statusMessage = "Owl AI is awakening...".obs;
+
+  /// Reactive progress value from 0.0 to 1.0.
   final progress = 0.0.obs;
+
+  /// The original image file received from the home screen.
   late File originalImage;
 
   @override
@@ -26,53 +36,55 @@ class ProcessingController extends GetxController {
     super.onInit();
     if (Get.arguments is File) {
       originalImage = Get.arguments;
-      _startFlow();
+      _startAnalysis();
     } else {
-      Get.back(); // حماية في حالة مفيش بيانات ممررة
+      Get.back();
     }
   }
 
-  Future<void> _startFlow() async {
+  /// Runs the full image analysis pipeline with progress updates.
+  Future<void> _startAnalysis() async {
     try {
-      _updateProgress(0.3, "Optimizing Image Quality...");
+      _updateUI(0.2, "Scanning for life forms...");
 
       final result = await _processImageUseCase.execute(originalImage);
 
-      _updateProgress(0.7, "Analyzing Content...");
-      await Future.delayed(const Duration(milliseconds: 800)); // تجربة مستخدم أفضل
+      _updateUI(0.7, "Synthesizing pixels...");
+      await Future.delayed(const Duration(milliseconds: 600));
 
-      _updateProgress(1.0, "Ready!");
-
+      _updateUI(1.0, "Process Complete!");
       _handleNavigation(result);
     } catch (e) {
-      _handleError(e);
+      ErrorHandler.handle(e, fallbackMessage: 'Owl AI failed to process this image.');
+      Get.back();
     }
   }
 
-  void _updateProgress(double p, String m) {
+  /// Updates the progress bar and status message.
+  void _updateUI(double p, String m) {
     progress.value = p;
     statusMessage.value = m;
   }
 
+  /// Navigates to the appropriate result screen based on the processing type.
+  ///
+  /// Routes to [AppRoutes.faceDetection] for face content,
+  /// [AppRoutes.textRecognition] for document content, or
+  /// shows an error and navigates back for unrecognized content.
   void _handleNavigation(ProcessingResult result) {
+    String route;
+    if (result.type == ProcessingType.face) {
+      route = AppRoutes.faceDetection;
+    } else if (result.type == ProcessingType.document) {
+      route = AppRoutes.textRecognition;
+    } else {
+      SnackBarHelper.showErrorMessage("No clear content found.");
+      Get.back();
+      return;
+    }
 
-    String route = (result.type == ProcessingType.document)
-        ? AppRoutes.textRecognition
-        : AppRoutes.textRecognition;
-
-    Future.delayed(const Duration(milliseconds: 400), () {
-      Get.offNamed(route, arguments: result.file);
+    Future.delayed(const Duration(milliseconds: 300), () {
+      Get.offNamed(route, arguments: result);
     });
-  }
-
-  void _handleError(dynamic e) {
-    Get.back();
-    Get.snackbar(
-      "Processing Error",
-      "Something went wrong while analyzing the image.",
-      backgroundColor: AppColors.error.withOpacity(0.8),
-      colorText: AppColors.white,
-      snackPosition: SnackPosition.BOTTOM,
-    );
   }
 }

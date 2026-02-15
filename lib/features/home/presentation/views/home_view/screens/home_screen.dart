@@ -4,14 +4,23 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../../core/models/ui_models/error_params.dart';
 import '../../../../../../core/shared/widgets/error/app_error_widget.dart';
-import '../../../../../../core/utils/utils/constants/colors/app_colors.dart';
-import '../../../../../../core/utils/utils/widgets/custom_bottom_sheets.dart';
+import '../../../../../../core/utils/constants/colors/app_colors.dart';
+import '../../../../../../core/utils/widgets/custom_bottom_sheets.dart';
 import '../../../controllers/home_controller.dart';
 import '../widgets/history_list/history_shimmer_loading.dart';
 import '../widgets/home_header.dart';
 import '../widgets/history_list/empty_history_view.dart';
 
+/// The main home screen of the application.
+///
+/// [HomeScreen] displays the app header and a reactive list of
+/// processing history records. It shows loading shimmer, error state,
+/// empty state, or the history list based on the [HomeController] state.
+///
+/// A floating action button opens the image capture method selection
+/// bottom sheet via [CustomBottomSheets.showImagePicker].
 class HomeScreen extends GetView<HomeController> {
+  /// Creates a [HomeScreen] instance.
   const HomeScreen({super.key});
 
   @override

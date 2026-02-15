@@ -1,13 +1,39 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import '../../../../../../../core/utils/utils/constants/colors/app_colors.dart';
+import '../../../../../../../core/utils/constants/colors/app_colors.dart';
 
+/// A card widget representing a single history record in the list.
+///
+/// [HistoryCard] displays a leading icon, title, subtitle with date,
+/// and an optional PDF badge. It supports tap interaction for
+/// opening the associated file.
+///
+/// Required data:
+/// - [title]: The primary text (processing result or document label).
+/// - [subTitle]: The secondary text (typically the creation timestamp).
+/// - [icon]: The leading icon representing the content type.
+/// - [onTap]: Callback invoked when the card is tapped.
+/// - [isPdf]: Whether to display the PDF badge and gradient styling.
 class HistoryCard extends StatelessWidget {
+  /// The primary display text for this history entry.
   final String title;
-  final String subTitle;
-  final IconData icon;
-  final VoidCallback onTap;
-  final bool isPdf; // تمييز ملفات الـ PDF
 
+  /// The secondary display text, typically the creation date.
+  final String subTitle;
+
+  /// The icon representing the processing type.
+  final IconData icon;
+
+  /// Callback invoked when the card is tapped.
+  final VoidCallback onTap;
+
+  /// Whether this entry represents a PDF document.
+  final bool isPdf;
+
+  /// Optional file path to an image thumbnail for this entry.
+  final String? imagePath;
+
+  /// Creates a [HistoryCard] with the given display properties.
   const HistoryCard({
     super.key,
     required this.title,
@@ -15,7 +41,42 @@ class HistoryCard extends StatelessWidget {
     required this.icon,
     required this.onTap,
     this.isPdf = false,
+    this.imagePath,
   });
+
+  Widget _buildLeading() {
+    if (isPdf) return _buildGradientIcon(Icons.picture_as_pdf_rounded, isPdfStyle: true);
+
+    if (imagePath != null && imagePath!.isNotEmpty) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Image.file(
+          File(imagePath!),
+          width: 50,
+          height: 50,
+          fit: BoxFit.cover,
+          cacheWidth: 100,
+          errorBuilder: (_, e, s) => _buildGradientIcon(icon),
+        ),
+      );
+    }
+
+    return _buildGradientIcon(icon);
+  }
+
+  Widget _buildGradientIcon(IconData iconData, {bool isPdfStyle = false}) {
+    return Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        gradient: isPdfStyle
+            ? LinearGradient(colors: [AppColors.burrowingOwl, AppColors.tawnyOwl])
+            : AppColors.primaryGradient,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Icon(iconData, color: Colors.white),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,23 +92,7 @@ class HistoryCard extends StatelessWidget {
       child: ListTile(
         onTap: onTap,
         contentPadding: const EdgeInsets.all(12),
-        leading: Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            // لو PDF خليه أحمر (لون الـ PDF المعروف)، لو نص خليه بالـ Gradient بتاعك
-            gradient: isPdf
-                ? LinearGradient(
-                    colors: [AppColors.burrowingOwl, AppColors.tawnyOwl],
-                  )
-                : AppColors.primaryGradient,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Icon(
-            isPdf ? Icons.picture_as_pdf_rounded : icon,
-            color: Colors.white,
-          ),
-        ),
+        leading: _buildLeading(),
         title: Text(
           title,
           maxLines: 1,

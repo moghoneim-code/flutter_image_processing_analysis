@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../../core/utils/utils/constants/colors/app_colors.dart';
+import '../../../../../../../core/utils/constants/colors/app_colors.dart';
 import '../../../../controllers/text_recognition_controller.dart';
 
+/// A card widget displaying the OCR-extracted text content.
+///
+/// [ResultTextCard] reactively renders the recognized text from
+/// [TextRecognitionController.recognizedText]. It shows a "DETECTED TEXT"
+/// header with a processing indicator when OCR is active, and presents
+/// the extracted text as selectable content below.
 class ResultTextCard extends GetView<TextRecognitionController> {
+  /// Creates a [ResultTextCard] widget.
   const ResultTextCard({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
