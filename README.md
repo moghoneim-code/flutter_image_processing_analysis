@@ -94,7 +94,7 @@ feature/
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone <https://github.com/moghoneim-code/flutter_image_processing_analysis.git>
 cd flutter_image_processing_analysis
 
 # Install dependencies
