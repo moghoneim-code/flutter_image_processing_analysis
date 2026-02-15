@@ -2,6 +2,18 @@
 
 An intelligent image processing application built with Flutter that automatically detects content type (faces or documents) and applies the appropriate processing pipeline using Google ML Kit.
 
+
+
+<img width="110" height="239" alt="IMG_7749" src="https://github.com/user-attachments/assets/b8ce11e2-7d22-4580-bf14-ca83d7294101" />
+<img width="110" height="239" alt="IMG_7750" src="https://github.com/user-attachments/assets/48e9e372-a8b8-4e51-8e80-a8cb99e983e3" />
+<img width="110" height="239" alt="IMG_7751" src="https://github.com/user-attachments/assets/5b1b037b-af07-4f77-957b-04343964159d" />
+<img width="110" height="239" alt="IMG_7752" src="https://github.com/user-attachments/assets/3a4f2582-eb3e-4dbb-81d5-e537d4b7ea48" />
+<img width="110" height="239" alt="IMG_7753" src="https://github.com/user-attachments/assets/67bc8b37-6cd0-45c3-8032-156883deaf2d" />
+<img width="110" height="239" alt="IMG_7754" src="https://github.com/user-attachments/assets/013efca9-b112-47a6-a8bf-ced5a979f88c" />
+<img width="110" height="239" alt="IMG_7755" src="https://github.com/user-attachments/assets/2f99ed8c-471d-4da1-acc7-92fa54b5447f" />
+
+![before_after_preview](https://github.com/user-attachments/assets/659892e5-d264-4535-bb71-2339ac9a12e1)
+
 ## Features
 
 ### Core
