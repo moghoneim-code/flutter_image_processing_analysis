@@ -11,8 +11,8 @@ An intelligent image processing application built with Flutter that automaticall
 <img width="110" height="239" alt="IMG_7753" src="https://github.com/user-attachments/assets/67bc8b37-6cd0-45c3-8032-156883deaf2d" />
 <img width="110" height="239" alt="IMG_7754" src="https://github.com/user-attachments/assets/013efca9-b112-47a6-a8bf-ced5a979f88c" />
 <img width="110" height="239" alt="IMG_7755" src="https://github.com/user-attachments/assets/2f99ed8c-471d-4da1-acc7-92fa54b5447f" />
-![ScreenRecording_02-15-2026 23-55-54_1](https://github.com/user-attachments/assets/abc2a02f-ef2f-4dfc-8dfd-c751e76954c7)
 
+![before_after_preview](https://github.com/user-attachments/assets/659892e5-d264-4535-bb71-2339ac9a12e1)
 
 ## Features
 
