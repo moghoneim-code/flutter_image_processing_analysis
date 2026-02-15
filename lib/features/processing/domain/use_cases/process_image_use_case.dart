@@ -2,7 +2,7 @@ import 'dart:io';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/utils/constants/enums/processing_type.dart';
 import '../entities/processing_result.dart';
-import '../repositories/i_processing_repository.dart';
+import '../repositories/processing_repository.dart';
 
 /// Use case that orchestrates the complete image processing pipeline.
 ///
@@ -13,7 +13,7 @@ import '../repositories/i_processing_repository.dart';
 /// - **None**: Returns the original image unchanged.
 class ProcessImageUseCase {
   /// The repository providing processing operations.
-  final IProcessingRepository _repository;
+  final ProcessingRepository _repository;
 
   /// Creates a [ProcessImageUseCase] with the given [_repository].
   ProcessImageUseCase(this._repository);
@@ -21,8 +21,8 @@ class ProcessImageUseCase {
   /// Processes the given [image] and returns a [ProcessingResult].
   ///
   /// The pipeline:
-  /// 1. Determines the content type via [IProcessingRepository.analyzeImage].
-  /// 2. For faces: generates a composite via [IProcessingRepository.processFaceComposite].
+  /// 1. Determines the content type via [ProcessingRepository.analyzeImage].
+  /// 2. For faces: generates a composite via [ProcessingRepository.processFaceComposite].
   /// 3. For documents: enhances the image and extracts text.
   /// 4. For unrecognized content: returns the original image with [ProcessingType.none].
   ///

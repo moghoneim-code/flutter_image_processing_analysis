@@ -1,14 +1,14 @@
 import 'dart:io';
 import '../../../../core/errors/failures.dart';
-import '../repositories/i_history_detail_repository.dart';
+import '../repositories/history_detail_repository.dart';
 
 /// Use case for sharing a history file via the platform share sheet.
 ///
-/// [ShareHistoryFileUseCase] delegates to [IHistoryDetailRepository]
+/// [ShareHistoryFileUseCase] delegates to [HistoryDetailRepository]
 /// to share a processed image or PDF file with other applications.
 class ShareHistoryFileUseCase {
   /// The repository used to perform the share operation.
-  final IHistoryDetailRepository repository;
+  final HistoryDetailRepository repository;
 
   /// Creates a [ShareHistoryFileUseCase] with the given [repository].
   ShareHistoryFileUseCase(this.repository);

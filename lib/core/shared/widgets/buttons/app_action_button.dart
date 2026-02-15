@@ -1,21 +1,47 @@
 import 'package:flutter/material.dart';
-import '../../../../../../../core/utils/constants/colors/app_colors.dart';
+import '../../../utils/constants/colors/app_colors.dart';
 
-/// Visual style variants for [DetailButton].
-enum DetailButtonStyle { gradient, solid, destructive }
-
-/// A configurable action button for the history detail screen.
+/// Visual style variants for [AppActionButton].
 ///
-/// Supports three visual styles: gradient (primary CTA), solid (secondary),
-/// and destructive (outlined red). Disabled state is derived from [onTap]
-/// being null.
-class DetailButton extends StatelessWidget {
+/// - [gradient]: Primary CTA with the app gradient background.
+/// - [solid]: Secondary action with a solid dark background and border.
+/// - [destructive]: Outlined red button for dangerous actions (e.g. delete).
+enum AppButtonStyle { gradient, solid, destructive }
+
+/// A reusable action button used across all feature modules.
+///
+/// Supports three visual styles via [AppButtonStyle] and automatically
+/// handles the disabled state when [onTap] is null.
+///
+/// Example usage:
+/// ```dart
+/// AppActionButton(
+///   label: "SHARE",
+///   icon: Icons.share_rounded,
+///   style: AppButtonStyle.gradient,
+///   onTap: () => controller.share(),
+/// )
+/// ```
+class AppActionButton extends StatelessWidget {
+  /// The button text label displayed next to the icon.
   final String label;
+
+  /// The leading icon displayed before the label.
   final IconData icon;
-  final DetailButtonStyle style;
+
+  /// The visual style variant of the button.
+  final AppButtonStyle style;
+
+  /// Callback invoked on tap. Pass null to disable the button.
   final VoidCallback? onTap;
 
-  const DetailButton({
+  /// Creates an [AppActionButton].
+  ///
+  /// - [label]: The text shown on the button.
+  /// - [icon]: The icon shown before the label.
+  /// - [style]: The visual variant (gradient, solid, or destructive).
+  /// - [onTap]: The tap handler. Null disables the button.
+  const AppActionButton({
     super.key,
     required this.label,
     required this.icon,
@@ -31,7 +57,6 @@ class DetailButton extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
       child: Container(
-        width: style == DetailButtonStyle.destructive ? double.infinity : null,
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: _buildDecoration(),
         child: Row(
@@ -55,19 +80,19 @@ class DetailButton extends StatelessWidget {
 
   BoxDecoration _buildDecoration() {
     switch (style) {
-      case DetailButtonStyle.gradient:
+      case AppButtonStyle.gradient:
         return BoxDecoration(
           gradient: _isEnabled ? AppColors.primaryGradient : null,
           color: _isEnabled ? null : AppColors.greatGreyOwl.withValues(alpha: 0.3),
           borderRadius: BorderRadius.circular(16),
         );
-      case DetailButtonStyle.solid:
+      case AppButtonStyle.solid:
         return BoxDecoration(
           color: AppColors.bgSecondary,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.greyBorder),
         );
-      case DetailButtonStyle.destructive:
+      case AppButtonStyle.destructive:
         return BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(16),
@@ -81,7 +106,7 @@ class DetailButton extends StatelessWidget {
   }
 
   Color get _foregroundColor {
-    if (style == DetailButtonStyle.destructive) {
+    if (style == AppButtonStyle.destructive) {
       return _isEnabled
           ? AppColors.error
           : AppColors.error.withValues(alpha: 0.3);

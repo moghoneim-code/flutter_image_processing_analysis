@@ -140,6 +140,7 @@ flutter test            # Run tests
 
 | Route | Screen | Description |
 |-------|--------|-------------|
+| `/splash` | Splash | Animated launch screen with logo fade-in/scale and auto-navigation to home |
 | `/home` | Home | Processing history list with swipe-to-delete, FAB for new capture |
 | `/processing` | Processing | Animated progress indicator while ML Kit classifies and processes |
 | `/face-detection` | Face Result | Before/after slider comparing original vs B&W face composite |

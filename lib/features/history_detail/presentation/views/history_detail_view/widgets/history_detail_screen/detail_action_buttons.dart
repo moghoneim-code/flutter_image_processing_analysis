@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../../../../../core/shared/widgets/buttons/app_action_button.dart';
 import '../../../../controllers/history_detail_controller.dart';
 import 'delete_confirmation_dialog.dart';
-import 'detail_button.dart';
 
 /// A row of action buttons for sharing, opening, and deleting a history record.
 ///
@@ -32,34 +33,33 @@ class DetailActionButtons extends GetView<HistoryDetailController> {
           Row(
             children: [
               Expanded(
-                child: DetailButton(
+                child: AppActionButton(
                   label: "SHARE",
                   icon: Icons.share_rounded,
-                  style: DetailButtonStyle.gradient,
+                  style: AppButtonStyle.gradient,
                   onTap: disabled ? null : () => controller.shareFile(),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: DetailButton(
+                child: AppActionButton(
                   label: "OPEN",
                   icon: Icons.open_in_new_rounded,
-                  style: DetailButtonStyle.solid,
+                  style: AppButtonStyle.solid,
                   onTap: disabled ? null : () => controller.openFile(),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 12),
-          DetailButton(
+          AppActionButton(
             label: "DELETE",
             icon: Icons.delete_outline_rounded,
-            style: DetailButtonStyle.destructive,
+            style: AppButtonStyle.destructive,
             onTap: disabled ? null : () => _confirmDelete(context),
           ),
         ],
       );
     });
   }
-
 }

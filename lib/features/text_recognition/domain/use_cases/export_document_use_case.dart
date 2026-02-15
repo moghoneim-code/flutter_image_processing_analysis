@@ -3,19 +3,19 @@ import '../../../../core/errors/failures.dart';
 import '../../../../core/services/pdf/pdf_service.dart';
 import '../../../../core/utils/constants/enums/processing_type.dart';
 import '../../../home/data/models/history_model.dart';
-import '../repositories/i_text_recognition_repository.dart';
+import '../repositories/text_recognition_repository.dart';
 
 /// Use case for exporting an image as a PDF document and saving to history.
 ///
 /// [ExportDocumentUseCase] converts the given image file to a PDF
 /// using [PdfService], then persists a history record referencing
-/// the generated PDF via [ITextRecognitionRepository].
+/// the generated PDF via [TextRecognitionRepository].
 class ExportDocumentUseCase {
   /// The PDF generation service.
   final PdfService _pdfService;
 
   /// The repository for persisting history records.
-  final ITextRecognitionRepository _repository;
+  final TextRecognitionRepository _repository;
 
   /// Creates an [ExportDocumentUseCase] with the given dependencies.
   ExportDocumentUseCase(this._pdfService, this._repository);

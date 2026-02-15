@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import '../../../../core/errors/error_handler.dart';
 import '../../../../core/helper/snackbar_helper.dart';
-import '../../../../core/services/history_refresh_service.dart';
+import '../../../../core/services/refresh/history_refresh_service.dart';
 import '../../../home/data/models/history_model.dart';
 import '../../../home/domain/use_cases/delete_history_use_case.dart';
 import '../../domain/use_cases/open_history_file_use_case.dart';

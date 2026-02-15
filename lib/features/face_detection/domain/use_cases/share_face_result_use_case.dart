@@ -1,18 +1,18 @@
 import 'dart:io';
 import '../../../../core/errors/failures.dart';
-import '../../domain/repositories/i_face_detection_repository.dart';
+import '../../domain/repositories/face_detection_repository.dart';
 
 /// Use case for sharing a face detection result via the platform share sheet.
 ///
 /// [ShareFaceResultUseCase] delegates the share operation to
-/// [IFaceDetectionRepository] and wraps unexpected errors in a
+/// [FaceDetectionRepository] and wraps unexpected errors in a
 /// [ShareFailure].
 ///
 /// Required parameters:
-/// - [repository]: The [IFaceDetectionRepository] used for sharing.
+/// - [repository]: The [FaceDetectionRepository] used for sharing.
 class ShareFaceResultUseCase {
   /// The repository used to share face detection files.
-  final IFaceDetectionRepository repository;
+  final FaceDetectionRepository repository;
 
   /// Creates a [ShareFaceResultUseCase] with the given [repository].
   ShareFaceResultUseCase(this.repository);

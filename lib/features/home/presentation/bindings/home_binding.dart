@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import '../../../../core/services/database/app_database.dart';
 import '../../../../core/services/database/sqlite_database_impl.dart';
 import '../../data/repositories/home_repository_impl.dart';
-import '../../domain/repositories/i_home_repository.dart';
+import '../../domain/repositories/home_repository.dart';
 import '../../domain/use_cases/delete_history_use_case.dart';
 import '../../domain/use_cases/get_history_use_case.dart';
 import '../controllers/home_controller.dart';
@@ -17,13 +17,13 @@ class HomeBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<AppDatabase>(() => SqliteDatabaseImpl());
 
-    Get.lazyPut<IHomeRepository>(
+    Get.lazyPut<HomeRepository>(
       () => HomeRepositoryImpl(Get.find<AppDatabase>()),
     );
 
-    Get.lazyPut(() => GetHistoryUseCase(Get.find<IHomeRepository>()));
+    Get.lazyPut(() => GetHistoryUseCase(Get.find<HomeRepository>()));
 
-    Get.lazyPut(() => DeleteHistoryUseCase(Get.find<IHomeRepository>()));
+    Get.lazyPut(() => DeleteHistoryUseCase(Get.find<HomeRepository>()));
 
     Get.lazyPut(
       () => HomeController(

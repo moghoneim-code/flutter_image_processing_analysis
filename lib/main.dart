@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import 'config/routes/app_pages.dart';
 import 'config/routes/app_routes.dart';
-import 'core/services/history_refresh_service.dart';
+import 'core/services/refresh/history_refresh_service.dart';
 
 /// Entry point of the ImageFlow AI application.
 ///
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: AppColors.bgPrimary,
       ),
-      initialRoute: AppRoutes.home,
+      initialRoute: AppRoutes.splash,
       getPages: AppPages.pages,
     );
   }

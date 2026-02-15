@@ -1,13 +1,13 @@
 import '../../../../core/errors/failures.dart';
-import '../repositories/i_home_repository.dart';
+import '../repositories/home_repository.dart';
 
 /// Use case for deleting a single history record by its ID.
 ///
 /// [DeleteHistoryUseCase] encapsulates the business logic for
-/// removing a specific history entry from the [IHomeRepository].
+/// removing a specific history entry from the [HomeRepository].
 class DeleteHistoryUseCase {
   /// The repository used to perform the deletion.
-  final IHomeRepository repository;
+  final HomeRepository repository;
 
   /// Creates a [DeleteHistoryUseCase] with the given [repository].
   DeleteHistoryUseCase(this.repository);

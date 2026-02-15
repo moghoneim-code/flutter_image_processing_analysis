@@ -7,6 +7,8 @@ import '../../features/home/presentation/bindings/home_binding.dart';
 import '../../features/home/presentation/views/home_view/screens/home_screen.dart';
 import '../../features/processing/presentation/bindings/processing_binding.dart';
 import '../../features/processing/presentation/views/processing_view/screens/processing_screen.dart';
+import '../../features/splash/presentation/bindings/splash_binding.dart';
+import '../../features/splash/presentation/views/splash_view/screens/splash_screen.dart';
 import '../../features/text_recognition/presentation/bindings/live_scan_binding.dart';
 import '../../features/text_recognition/presentation/bindings/text_recognition_binding.dart';
 import '../../features/text_recognition/presentation/views/text_recognition_view/screens/live_scan_screen.dart';
@@ -21,6 +23,11 @@ import 'app_routes.dart';
 class AppPages {
   /// The complete list of [GetPage] route definitions.
   static final pages = [
+    GetPage(
+      name: AppRoutes.splash,
+      page: () => const SplashScreen(),
+      binding: SplashBinding(),
+    ),
     GetPage(
       name: AppRoutes.home,
       page: () => const HomeScreen(),

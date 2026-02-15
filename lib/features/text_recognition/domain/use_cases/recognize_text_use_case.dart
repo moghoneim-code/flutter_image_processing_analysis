@@ -3,16 +3,16 @@ import '../../../../core/errors/failures.dart';
 import '../../../../core/services/ml_services/ml_service.dart';
 import '../../../../core/utils/constants/enums/processing_type.dart';
 import '../../../home/data/models/history_model.dart';
-import '../repositories/i_text_recognition_repository.dart';
+import '../repositories/text_recognition_repository.dart';
 
 /// Use case for performing OCR on an image and saving the result.
 ///
 /// [RecognizeTextUseCase] extracts text from the given image using
 /// [MLService], creates a [HistoryModel] record with the result,
-/// and persists it via [ITextRecognitionRepository].
+/// and persists it via [TextRecognitionRepository].
 class RecognizeTextUseCase {
   /// The repository for persisting recognition results.
-  final ITextRecognitionRepository repository;
+  final TextRecognitionRepository repository;
 
   /// The ML service used for text recognition.
   final MLService mlService;

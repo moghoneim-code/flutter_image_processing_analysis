@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import '../../../../core/services/image_processing/image_pre_processor.dart';
 import '../../../../core/services/ml_services/ml_service.dart';
 import '../../data/repositories/processing_repository_impl.dart';
-import '../../domain/repositories/i_processing_repository.dart';
+import '../../domain/repositories/processing_repository.dart';
 import '../../domain/use_cases/process_image_use_case.dart';
 import '../controllers/processing_controller.dart';
 
@@ -17,7 +17,7 @@ class ProcessingBinding extends Bindings {
     Get.lazyPut(() => MLService());
     Get.lazyPut(() => ImagePreProcessor());
 
-    Get.lazyPut<IProcessingRepository>(
+    Get.lazyPut<ProcessingRepository>(
             () => ProcessingRepositoryImpl(Get.find(), Get.find())
     );
 

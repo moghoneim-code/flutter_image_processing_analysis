@@ -1,14 +1,14 @@
 import '../../../../core/errors/failures.dart';
 import '../../data/models/history_model.dart';
-import '../repositories/i_home_repository.dart';
+import '../repositories/home_repository.dart';
 
 /// Use case for retrieving all processing history records.
 ///
 /// [GetHistoryUseCase] encapsulates the business logic for fetching
-/// the complete history list from the [IHomeRepository].
+/// the complete history list from the [HomeRepository].
 class GetHistoryUseCase {
   /// The repository used to access history data.
-  final IHomeRepository repository;
+  final HomeRepository repository;
 
   /// Creates a [GetHistoryUseCase] with the given [repository].
   GetHistoryUseCase(this.repository);

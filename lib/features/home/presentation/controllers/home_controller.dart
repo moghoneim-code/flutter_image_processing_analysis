@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../config/routes/app_routes.dart';
 import '../../../../core/errors/error_handler.dart';
 import '../../../../core/errors/failures.dart';
-import '../../../../core/services/history_refresh_service.dart';
+import '../../../../core/services/refresh/history_refresh_service.dart';
 import '../../../../core/services/image_picker/image_picker_service.dart';
 import '../../data/models/history_model.dart';
 import '../../domain/use_cases/delete_history_use_case.dart';

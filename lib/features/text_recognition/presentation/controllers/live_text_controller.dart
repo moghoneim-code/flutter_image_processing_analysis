@@ -6,7 +6,7 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import '../../../../core/errors/error_handler.dart';
 import '../../../../core/errors/failures.dart';
 import '../../../../core/helper/snackbar_helper.dart';
-import '../../../../core/services/history_refresh_service.dart';
+import '../../../../core/services/refresh/history_refresh_service.dart';
 import '../../domain/use_cases/save_live_result_use_case.dart';
 
 /// Controller managing the live camera text recognition screen.

@@ -1,13 +1,13 @@
 import '../../../../core/errors/failures.dart';
 import '../../../../core/services/database/app_database.dart';
-import '../../domain/repositories/i_home_repository.dart';
+import '../../domain/repositories/home_repository.dart';
 import '../models/history_model.dart';
 
-/// Concrete implementation of [IHomeRepository] backed by [AppDatabase].
+/// Concrete implementation of [HomeRepository] backed by [AppDatabase].
 ///
 /// [HomeRepositoryImpl] delegates all persistence operations to the
 /// injected [AppDatabase] instance and wraps errors in [DatabaseFailure].
-class HomeRepositoryImpl implements IHomeRepository {
+class HomeRepositoryImpl implements HomeRepository {
   /// The database instance used for all data operations.
   final AppDatabase database;
 

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import '../../../../core/errors/error_handler.dart';
-import '../../../../core/services/history_refresh_service.dart';
+import '../../../../core/services/refresh/history_refresh_service.dart';
 import '../../../../core/utils/constants/enums/processing_type.dart';
 import '../../../home/data/models/history_model.dart';
 import '../../../processing/domain/entities/processing_result.dart';

@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:share_plus/share_plus.dart';
 import '../../../../core/errors/failures.dart';
-import '../../domain/repositories/i_face_detection_repository.dart';
+import '../../domain/repositories/face_detection_repository.dart';
 import '../../../../core/services/database/app_database.dart';
 import '../../../../core/services/pdf/pdf_service.dart';
 import '../../../home/data/models/history_model.dart';
 
-/// Concrete implementation of [IFaceDetectionRepository].
+/// Concrete implementation of [FaceDetectionRepository].
 ///
 /// [FaceDetectionRepositoryImpl] handles face detection data operations
 /// including database persistence via [AppDatabase], PDF generation
@@ -15,7 +15,7 @@ import '../../../home/data/models/history_model.dart';
 /// Required parameters:
 /// - [_database]: The [AppDatabase] instance for SQLite operations.
 /// - [_pdfService]: The [PdfService] instance for PDF generation.
-class FaceDetectionRepositoryImpl implements IFaceDetectionRepository {
+class FaceDetectionRepositoryImpl implements FaceDetectionRepository {
   /// The database service for persisting history records.
   final AppDatabase _database;
 

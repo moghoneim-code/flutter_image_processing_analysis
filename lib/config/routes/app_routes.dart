@@ -4,6 +4,9 @@
 /// provide a single source of truth for navigation paths.
 /// Used in conjunction with [AppPages] for route registration.
 class AppRoutes {
+  /// Route path for the splash screen displayed on app launch.
+  static const String splash = '/splash';
+
   /// Route path for the home screen displaying processing history.
   static const String home = '/home';
 

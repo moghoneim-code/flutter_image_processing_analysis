@@ -2,10 +2,10 @@ import '../../data/models/history_model.dart';
 
 /// Abstract repository interface for home feature data operations.
 ///
-/// [IHomeRepository] defines the contract for managing history records.
+/// [HomeRepository] defines the contract for managing history records.
 /// Implementations such as [HomeRepositoryImpl] provide the concrete
 /// database interaction logic.
-abstract class IHomeRepository {
+abstract class HomeRepository {
   /// Retrieves all history records from the database.
   ///
   /// Returns a list of [HistoryModel] ordered by most recent first.

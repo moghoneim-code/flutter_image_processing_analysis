@@ -1,13 +1,13 @@
 import '../../../../core/errors/failures.dart';
-import '../repositories/i_history_detail_repository.dart';
+import '../repositories/history_detail_repository.dart';
 
 /// Use case for opening a history file in the device's default application.
 ///
-/// [OpenHistoryFileUseCase] delegates to [IHistoryDetailRepository]
+/// [OpenHistoryFileUseCase] delegates to [HistoryDetailRepository]
 /// to open a processed image or PDF file using the platform file viewer.
 class OpenHistoryFileUseCase {
   /// The repository used to perform the open operation.
-  final IHistoryDetailRepository repository;
+  final HistoryDetailRepository repository;
 
   /// Creates an [OpenHistoryFileUseCase] with the given [repository].
   OpenHistoryFileUseCase(this.repository);

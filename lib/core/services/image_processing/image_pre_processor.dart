@@ -9,6 +9,9 @@ import '../../errors/failures.dart';
 ///
 /// [ImagePreProcessor] provides methods to enhance document scans
 /// and create face composite images by manipulating pixel data.
+///
+/// All processed images are saved to the app documents directory
+/// (not temp) so they persist for history viewing.
 class ImagePreProcessor {
 
   /// Enhances the given [imageFile] for document scanning.
@@ -20,14 +23,17 @@ class ImagePreProcessor {
   /// Falls back to simple grayscale + contrast if no clear document
   /// edges are detected.
   ///
-  /// Returns a new temporary [File] containing the enhanced image.
+  /// Returns a new [File] containing the enhanced image.
   /// Throws an [ImageProcessingFailure] if the operation fails.
   Future<File> enhanceForScanning(File imageFile) async {
     try {
       final bytes = await imageFile.readAsBytes();
-      img.Image? image = img.decodeImage(bytes);
+      img.Image? decoded = img.decodeImage(bytes);
 
-      if (image == null) return imageFile;
+      if (decoded == null) return imageFile;
+
+      // Apply EXIF orientation so pixel coordinates match visual orientation
+      final image = img.bakeOrientation(decoded);
 
       final edges = _detectEdges(image);
       final corners = _findDocumentCorners(edges, image.width, image.height);
@@ -42,7 +48,7 @@ class ImagePreProcessor {
       result = img.grayscale(result);
       result = img.adjustColor(result, contrast: 1.2);
 
-      return await _saveTempImage(result, "enhanced_doc");
+      return await _saveProcessedImage(result, "enhanced_doc");
     } catch (e) {
       if (e is ImageProcessingFailure) rethrow;
       throw ImageProcessingFailure('Failed to enhance image for scanning: $e');
@@ -229,25 +235,32 @@ class ImagePreProcessor {
   /// This creates a visual effect where faces appear in grayscale
   /// while the rest of the image remains in full color.
   ///
+  /// EXIF orientation is baked in before processing so that ML Kit
+  /// bounding boxes (which use displayed orientation) align correctly
+  /// with the raw pixel data.
+  ///
   /// - [imageFile]: The source image file to process.
   /// - [faces]: A list of [Face] objects with bounding box coordinates.
   ///
-  /// Returns a new temporary [File] containing the composite image.
+  /// Returns a new [File] containing the composite image.
   /// Throws an [ImageProcessingFailure] if the operation fails.
   Future<File> createFaceComposite(File imageFile, List<Face> faces) async {
     try {
       final bytes = await imageFile.readAsBytes();
-      img.Image? originalImage = img.decodeImage(bytes);
+      img.Image? decoded = img.decodeImage(bytes);
 
-      if (originalImage == null || faces.isEmpty) return imageFile;
+      if (decoded == null || faces.isEmpty) return imageFile;
+
+      // Apply EXIF orientation so bounding boxes from ML Kit align correctly
+      final originalImage = img.bakeOrientation(decoded);
 
       for (var face in faces) {
         final rect = face.boundingBox;
 
-        int x = rect.left.toInt().clamp(0, originalImage.width);
-        int y = rect.top.toInt().clamp(0, originalImage.height);
-        int w = rect.width.toInt().clamp(0, originalImage.width - x);
-        int h = rect.height.toInt().clamp(0, originalImage.height - y);
+        int x = rect.left.toInt().clamp(0, originalImage.width - 1);
+        int y = rect.top.toInt().clamp(0, originalImage.height - 1);
+        int w = rect.width.toInt().clamp(1, originalImage.width - x);
+        int h = rect.height.toInt().clamp(1, originalImage.height - y);
 
         if (w <= 0 || h <= 0) continue;
 
@@ -269,27 +282,36 @@ class ImagePreProcessor {
         );
       }
 
-      return await _saveTempImage(originalImage, "face_composite");
+      return await _saveProcessedImage(originalImage, "face_composite");
     } catch (e) {
       if (e is ImageProcessingFailure) rethrow;
       throw ImageProcessingFailure('Failed to create face composite: $e');
     }
   }
 
-  /// Saves the processed [image] to a temporary file with the given [prefix].
+  /// Saves the processed [image] to the app documents directory.
   ///
-  /// The file is saved as a JPEG in the system's temporary directory
-  /// with a timestamp-based filename to ensure uniqueness.
+  /// Uses the documents directory (not temp) so files persist across
+  /// sessions and are available for history viewing. Images are saved
+  /// as JPEG with 90% quality to balance file size and visual fidelity.
   ///
-  /// Returns the newly created temporary [File].
+  /// - [image]: The processed image to save.
+  /// - [prefix]: A filename prefix describing the processing type.
+  ///
+  /// Returns the newly created [File].
   /// Throws an [ImageProcessingFailure] if saving fails.
-  Future<File> _saveTempImage(img.Image image, String prefix) async {
+  Future<File> _saveProcessedImage(img.Image image, String prefix) async {
     try {
-      final tempDir = await getTemporaryDirectory();
+      final appDir = await getApplicationDocumentsDirectory();
+      final processedDir = Directory('${appDir.path}/processed_images');
+      if (!await processedDir.exists()) {
+        await processedDir.create(recursive: true);
+      }
+
       final path =
-          '${tempDir.path}/${prefix}_${DateTime.now().millisecondsSinceEpoch}.jpg';
+          '${processedDir.path}/${prefix}_${DateTime.now().millisecondsSinceEpoch}.jpg';
       final file = File(path);
-      await file.writeAsBytes(img.encodeJpg(image));
+      await file.writeAsBytes(img.encodeJpg(image, quality: 90));
       return file;
     } catch (e) {
       if (e is ImageProcessingFailure) rethrow;

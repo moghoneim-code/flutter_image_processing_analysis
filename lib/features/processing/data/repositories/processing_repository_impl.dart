@@ -3,14 +3,14 @@ import '../../../../core/errors/failures.dart';
 import '../../../../core/services/image_processing/image_pre_processor.dart';
 import '../../../../core/services/ml_services/ml_service.dart';
 import '../../../../core/utils/constants/enums/processing_type.dart';
-import '../../domain/repositories/i_processing_repository.dart';
+import '../../domain/repositories/processing_repository.dart';
 
-/// Concrete implementation of [IProcessingRepository].
+/// Concrete implementation of [ProcessingRepository].
 ///
 /// [ProcessingRepositoryImpl] delegates ML operations to [MLService]
 /// and image manipulation to [ImagePreProcessor], wrapping all errors
 /// in the appropriate [Failure] subclass.
-class ProcessingRepositoryImpl implements IProcessingRepository {
+class ProcessingRepositoryImpl implements ProcessingRepository {
   /// The ML service for content detection and text recognition.
   final MLService _mlService;
 

@@ -4,12 +4,13 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../core/errors/error_handler.dart';
 import '../../../../core/helper/snackbar_helper.dart';
-import '../../../../core/services/history_refresh_service.dart';
+import '../../../../core/services/refresh/history_refresh_service.dart';
 import '../../../../core/services/image_picker/image_picker_service.dart';
 import '../../../processing/domain/entities/processing_result.dart';
 import '../../domain/use_cases/copy_to_clipboard_use_case.dart';
 import '../../domain/use_cases/export_document_use_case.dart';
 import '../../domain/use_cases/recognize_text_use_case.dart';
+import '../../domain/use_cases/save_text_result_use_case.dart';
 import '../../domain/use_cases/share_text_use_case.dart';
 
 /// Controller managing the text recognition screen state and actions.
@@ -36,6 +37,9 @@ class TextRecognitionController extends GetxController {
   /// Use case for PDF document export.
   final ExportDocumentUseCase exportUseCase;
 
+  /// Use case for saving a text result to history without re-running OCR.
+  final SaveTextResultUseCase saveResultUseCase;
+
   /// Service for picking and cropping replacement images.
   final ImagePickerService _imagePickerService = ImagePickerService();
 
@@ -57,6 +61,7 @@ class TextRecognitionController extends GetxController {
     required this.copyUseCase,
     required this.shareUseCase,
     required this.exportUseCase,
+    required this.saveResultUseCase,
   });
 
   @override
@@ -79,6 +84,7 @@ class TextRecognitionController extends GetxController {
       selectedImage.value = result.file;
       if (result.extractedText != null && result.extractedText!.isNotEmpty) {
         recognizedText.value = result.extractedText!;
+        _savePreExtractedResult(result.file, result.extractedText!);
       } else {
         processImage();
       }
@@ -88,6 +94,19 @@ class TextRecognitionController extends GetxController {
     } else {
       Get.back();
       SnackBarHelper.showErrorMessage("No valid image source found.");
+    }
+  }
+
+  /// Saves a pre-extracted text result to history without re-running OCR.
+  ///
+  /// Called when the [ProcessingResult] already contains extracted text
+  /// from the processing pipeline.
+  Future<void> _savePreExtractedResult(File image, String text) async {
+    try {
+      await saveResultUseCase.execute(image, text);
+      _refreshService.notify();
+    } catch (e) {
+      ErrorHandler.handle(e, fallbackMessage: 'Failed to save result to history.');
     }
   }
 

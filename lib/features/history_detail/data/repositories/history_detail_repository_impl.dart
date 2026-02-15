@@ -2,14 +2,14 @@ import 'dart:io';
 import 'package:open_filex/open_filex.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../../../core/errors/failures.dart';
-import '../../domain/repositories/i_history_detail_repository.dart';
+import '../../domain/repositories/history_detail_repository.dart';
 
-/// Concrete implementation of [IHistoryDetailRepository].
+/// Concrete implementation of [HistoryDetailRepository].
 ///
 /// [HistoryDetailRepositoryImpl] delegates file sharing to [Share]
 /// and file opening to [OpenFiles], wrapping platform errors in
 /// domain-level failure types.
-class HistoryDetailRepositoryImpl implements IHistoryDetailRepository {
+class HistoryDetailRepositoryImpl implements HistoryDetailRepository {
   @override
   Future<void> shareFile(File file, {String? text}) async {
     try {

@@ -3,11 +3,11 @@ import '../../../../core/utils/constants/enums/processing_type.dart';
 
 /// Abstract repository interface for image processing operations.
 ///
-/// [IProcessingRepository] defines the contract for analyzing images,
+/// [ProcessingRepository] defines the contract for analyzing images,
 /// creating face composites, enhancing documents, and extracting text.
 /// Implementations such as [ProcessingRepositoryImpl] provide the
 /// concrete logic using [MLService] and [ImagePreProcessor].
-abstract class IProcessingRepository {
+abstract class ProcessingRepository {
   /// Analyzes the [image] and returns its detected [ProcessingType].
   Future<ProcessingType> analyzeImage(File image);
 

@@ -1,18 +1,18 @@
 import 'dart:io';
 import '../../../../core/errors/failures.dart';
-import '../../domain/repositories/i_face_detection_repository.dart';
+import '../../domain/repositories/face_detection_repository.dart';
 
 /// Use case for exporting a face composite image as a PDF document.
 ///
 /// [ExportFacePdfUseCase] delegates PDF generation to
-/// [IFaceDetectionRepository] and wraps unexpected errors in a
+/// [FaceDetectionRepository] and wraps unexpected errors in a
 /// [PdfFailure].
 ///
 /// Required parameters:
-/// - [repository]: The [IFaceDetectionRepository] used for PDF generation.
+/// - [repository]: The [FaceDetectionRepository] used for PDF generation.
 class ExportFacePdfUseCase {
   /// The repository used to generate PDF documents.
-  final IFaceDetectionRepository repository;
+  final FaceDetectionRepository repository;
 
   /// Creates an [ExportFacePdfUseCase] with the given [repository].
   ExportFacePdfUseCase(this.repository);

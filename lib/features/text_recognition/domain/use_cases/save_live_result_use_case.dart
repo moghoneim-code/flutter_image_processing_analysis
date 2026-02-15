@@ -1,15 +1,15 @@
 import '../../../../core/errors/failures.dart';
-import '../../../home/domain/repositories/i_home_repository.dart';
+import '../../../home/domain/repositories/home_repository.dart';
 import '../../../home/data/models/history_model.dart';
 import '../../../../core/utils/constants/enums/processing_type.dart';
 
 /// Use case for saving a live text recognition result to history.
 ///
 /// [SaveLiveResultUseCase] creates a [HistoryModel] from the live
-/// scan output and persists it via [IHomeRepository].
+/// scan output and persists it via [HomeRepository].
 class SaveLiveResultUseCase {
   /// The repository used to persist the history record.
-  final IHomeRepository repository;
+  final HomeRepository repository;
 
   /// Creates a [SaveLiveResultUseCase] with the given [repository].
   SaveLiveResultUseCase(this.repository);

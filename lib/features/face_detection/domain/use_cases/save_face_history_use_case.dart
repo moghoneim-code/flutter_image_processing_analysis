@@ -1,18 +1,18 @@
 import '../../../../core/errors/failures.dart';
 import '../../../home/data/models/history_model.dart';
-import '../../domain/repositories/i_face_detection_repository.dart';
+import '../../domain/repositories/face_detection_repository.dart';
 
 /// Use case for persisting a face detection result to history.
 ///
 /// [SaveFaceHistoryUseCase] delegates the save operation to
-/// [IFaceDetectionRepository] and wraps unexpected errors in a
+/// [FaceDetectionRepository] and wraps unexpected errors in a
 /// [DatabaseFailure].
 ///
 /// Required parameters:
-/// - [repository]: The [IFaceDetectionRepository] used for persistence.
+/// - [repository]: The [FaceDetectionRepository] used for persistence.
 class SaveFaceHistoryUseCase {
   /// The repository used to persist face detection history.
-  final IFaceDetectionRepository repository;
+  final FaceDetectionRepository repository;
 
   /// Creates a [SaveFaceHistoryUseCase] with the given [repository].
   SaveFaceHistoryUseCase(this.repository);

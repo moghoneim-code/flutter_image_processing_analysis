@@ -2,11 +2,11 @@ import '../../../home/data/models/history_model.dart';
 
 /// Abstract repository interface for text recognition data operations.
 ///
-/// [ITextRecognitionRepository] defines the contract for persisting
+/// [TextRecognitionRepository] defines the contract for persisting
 /// text recognition results and history records. Implementations
 /// such as [TextRecognitionRepositoryImpl] provide the concrete
 /// database interaction logic.
-abstract class ITextRecognitionRepository {
+abstract class TextRecognitionRepository {
   /// Saves a text recognition result [item] to the database.
   Future<void> saveResult(HistoryModel item);
 

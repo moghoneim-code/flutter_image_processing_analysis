@@ -1,13 +1,13 @@
 import '../../../../core/errors/failures.dart';
 import '../../../../core/services/database/app_database.dart';
 import '../../../home/data/models/history_model.dart';
-import '../../domain/repositories/i_text_recognition_repository.dart';
+import '../../domain/repositories/text_recognition_repository.dart';
 
-/// Concrete implementation of [ITextRecognitionRepository] backed by [AppDatabase].
+/// Concrete implementation of [TextRecognitionRepository] backed by [AppDatabase].
 ///
 /// [TextRecognitionRepositoryImpl] delegates all persistence operations
 /// to the injected [AppDatabase] and wraps errors in [DatabaseFailure].
-class TextRecognitionRepositoryImpl implements ITextRecognitionRepository {
+class TextRecognitionRepositoryImpl implements TextRecognitionRepository {
   /// The database instance used for all data operations.
   final AppDatabase database;
 

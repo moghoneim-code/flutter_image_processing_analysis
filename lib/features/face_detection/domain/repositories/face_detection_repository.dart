@@ -3,13 +3,14 @@ import '../../../home/data/models/history_model.dart';
 
 /// Abstract repository interface for face detection data operations.
 ///
-/// [IFaceDetectionRepository] defines the contract for persisting face
+/// [FaceDetectionRepository] defines the contract for persisting face
 /// detection history, generating PDF documents from face composite images,
 /// and sharing face detection results via the platform share sheet.
 ///
 /// Implemented by [FaceDetectionRepositoryImpl].
-abstract class IFaceDetectionRepository {
+abstract class FaceDetectionRepository {
   /// Persists a face detection result to the history database.
+  ///
   ///
   /// - [history]: The [HistoryModel] containing the face detection record.
   Future<void> saveFaceHistory(HistoryModel history);
