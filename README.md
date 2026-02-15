@@ -5,6 +5,7 @@ An intelligent image processing application built with Flutter that automaticall
 ## Features
 
 ### Core
+- **Animated Splash Screen** — Owl logo with radial glow, gradient app name, and tagline — fade-in + scale entrance animation with auto-navigation to home
 - **Smart Content Detection** — Automatically classifies images as face or document and routes to the correct processing flow
 - **Face Processing** — Detects faces via ML Kit, crops face regions, applies B&W filter, and composites back onto the original image with a before/after slider comparison
 - **Document Scanning** — Sobel edge detection, perspective transformation, contrast enhancement, and PDF export
@@ -46,6 +47,7 @@ lib/
 │   │   └── pdf/               # A4 PDF generation
 │   └── shared/widgets/
 └── features/
+    ├── splash/           # Animated launch screen with logo & tagline
     ├── home/             # History list, FAB for new capture
     ├── processing/       # Content classification & processing pipeline
     ├── face_detection/   # Face result with before/after slider
