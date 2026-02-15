@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_compare_slider/image_compare_slider.dart';
@@ -23,12 +24,29 @@ class FaceImagePreview extends GetView<FaceDetectionController> {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(28),
-        child: originalFile != null
-            ? ImageCompareSlider(
-                itemOne: Image.file(originalFile, fit: BoxFit.contain),
-                itemTwo: Image.file(controller.result.file, fit: BoxFit.contain),
-              )
-            : _buildSingleImage(controller.result.file),
+        child: Obx(() {
+          final quarters = controller.quarterTurns.value;
+          final flipH = controller.isFlippedHorizontally.value;
+          final flipV = controller.isFlippedVertically.value;
+
+          Widget content = originalFile != null
+              ? ImageCompareSlider(
+                  itemOne: Image.file(originalFile, fit: BoxFit.contain),
+                  itemTwo: Image.file(controller.result.file, fit: BoxFit.contain),
+                )
+              : _buildSingleImage(controller.result.file);
+
+          return Transform(
+            alignment: Alignment.center,
+            transform: Matrix4.identity()
+              ..rotateY(flipH ? math.pi : 0)
+              ..rotateX(flipV ? math.pi : 0),
+            child: RotatedBox(
+              quarterTurns: quarters,
+              child: content,
+            ),
+          );
+        }),
       ),
     );
   }

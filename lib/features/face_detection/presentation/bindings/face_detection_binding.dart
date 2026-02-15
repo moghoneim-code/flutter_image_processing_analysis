@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../../../../core/services/database/app_database.dart';
 import '../../../../core/services/database/sqlite_database_impl.dart';
+import '../../../../core/services/image_processing/image_pre_processor.dart';
 import '../../../../core/services/pdf/pdf_service.dart';
 import '../../data/repositories/face_detection_repository_impl.dart';
 import '../../domain/repositories/face_detection_repository.dart';
@@ -20,6 +21,7 @@ class FaceDetectionBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<AppDatabase>(() => SqliteDatabaseImpl());
     Get.lazyPut(() => PdfService());
+    Get.lazyPut(() => ImagePreProcessor());
 
     Get.lazyPut<FaceDetectionRepository>(
       () => FaceDetectionRepositoryImpl(
@@ -34,6 +36,7 @@ class FaceDetectionBinding extends Bindings {
       saveHistoryUseCase: Get.find(),
       exportPdfUseCase: Get.find(),
       shareUseCase: Get.find(),
+      imagePreProcessor: Get.find(),
     ));
   }
 }

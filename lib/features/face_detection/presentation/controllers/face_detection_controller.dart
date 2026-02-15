@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import '../../../../core/errors/error_handler.dart';
+import '../../../../core/services/image_processing/image_pre_processor.dart';
 import '../../../../core/services/refresh/history_refresh_service.dart';
 import '../../../../core/utils/constants/enums/processing_type.dart';
 import '../../../home/data/models/history_model.dart';
@@ -28,11 +31,15 @@ class FaceDetectionController extends GetxController {
   /// Use case for sharing the face detection result file.
   final ShareFaceResultUseCase shareUseCase;
 
+  /// Service for applying image transforms before sharing/exporting.
+  final ImagePreProcessor imagePreProcessor;
+
   /// Creates a [FaceDetectionController] with the required use cases.
   FaceDetectionController({
     required this.saveHistoryUseCase,
     required this.exportPdfUseCase,
     required this.shareUseCase,
+    required this.imagePreProcessor,
   });
 
   /// Service for notifying the home screen of history changes.
@@ -43,6 +50,44 @@ class FaceDetectionController extends GetxController {
 
   /// Whether a PDF export operation is currently in progress.
   final isExporting = false.obs;
+
+  /// Number of 90° clockwise rotations applied (0–3).
+  final quarterTurns = 0.obs;
+
+  /// Whether the image is flipped horizontally.
+  final isFlippedHorizontally = false.obs;
+
+  /// Whether the image is flipped vertically.
+  final isFlippedVertically = false.obs;
+
+  /// Rotates the preview 90° clockwise.
+  void rotateRight() => quarterTurns.value = (quarterTurns.value + 1) % 4;
+
+  /// Rotates the preview 90° counter-clockwise.
+  void rotateLeft() => quarterTurns.value = (quarterTurns.value + 3) % 4;
+
+  /// Toggles horizontal flip.
+  void flipHorizontal() => isFlippedHorizontally.toggle();
+
+  /// Toggles vertical flip.
+  void flipVertical() => isFlippedVertically.toggle();
+
+  /// Whether any transform is currently applied.
+  bool get _hasTransforms =>
+      quarterTurns.value != 0 ||
+      isFlippedHorizontally.value ||
+      isFlippedVertically.value;
+
+  /// Applies current transforms to the result file and returns the transformed file.
+  Future<File> _getTransformedFile() async {
+    if (!_hasTransforms) return result.file;
+    return imagePreProcessor.applyTransforms(
+      result.file,
+      quarterTurns.value,
+      isFlippedHorizontally.value,
+      isFlippedVertically.value,
+    );
+  }
 
   @override
   void onInit() {
@@ -76,21 +121,28 @@ class FaceDetectionController extends GetxController {
   }
 
   /// Shares the face composite image via the platform share sheet.
+  ///
+  /// Applies any active rotation/flip transforms before sharing.
   void shareImage() async {
     await ErrorHandler.guardVoid(
-      () => shareUseCase.execute(result.file),
+      () async {
+        final file = await _getTransformedFile();
+        await shareUseCase.execute(file);
+      },
       fallbackMessage: 'Failed to share image.',
     );
   }
 
   /// Generates a PDF from the face composite and shares it.
   ///
+  /// Applies any active rotation/flip transforms before exporting.
   /// Sets [isExporting] to `true` during the operation and resets
   /// it on completion or failure.
   Future<void> generatePdf() async {
     isExporting.value = true;
     try {
-      final pdfFile = await exportPdfUseCase.execute(result.file);
+      final file = await _getTransformedFile();
+      final pdfFile = await exportPdfUseCase.execute(file);
       await shareUseCase.execute(pdfFile);
     } catch (e) {
       ErrorHandler.handle(e, fallbackMessage: 'Failed to generate or share PDF.');

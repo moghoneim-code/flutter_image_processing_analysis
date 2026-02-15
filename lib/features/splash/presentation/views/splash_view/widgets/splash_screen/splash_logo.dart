@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_processing_analysis/core/utils/constants/strings/app_images.dart';
 
-import '../../../../../../core/utils/constants/colors/app_colors.dart';
+import '../../../../../../../core/utils/constants/colors/app_colors.dart';
 
 /// The owl logo with a subtle radial glow behind it.
 ///

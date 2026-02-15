@@ -217,6 +217,43 @@ class _FaceCompositeParams {
   _FaceCompositeParams(this.bytes, this.faceRects);
 }
 
+/// Payload for the transform isolate function.
+class _TransformParams {
+  final Uint8List bytes;
+  final int quarterTurns;
+  final bool flipHorizontal;
+  final bool flipVertical;
+
+  _TransformParams(this.bytes, this.quarterTurns, this.flipHorizontal, this.flipVertical);
+}
+
+/// Top-level isolate function that applies rotation and flip transforms.
+///
+/// Decodes the image, applies [quarterTurns] * 90° clockwise rotation,
+/// then horizontal/vertical flips as requested. Returns JPEG bytes or
+/// `null` if decoding fails.
+Uint8List? _applyTransformsIsolate(_TransformParams params) {
+  img.Image? decoded = img.decodeImage(params.bytes);
+  if (decoded == null) return null;
+
+  var result = img.bakeOrientation(decoded);
+
+  if (params.quarterTurns % 4 != 0) {
+    final angle = (params.quarterTurns % 4) * 90;
+    result = img.copyRotate(result, angle: angle);
+  }
+
+  if (params.flipHorizontal) {
+    result = img.flipHorizontal(result);
+  }
+
+  if (params.flipVertical) {
+    result = img.flipVertical(result);
+  }
+
+  return Uint8List.fromList(img.encodeJpg(result, quality: 90));
+}
+
 /// Top-level isolate function for face composite generation.
 ///
 /// Decodes, orients, then composites grayscale face regions — all off
@@ -346,6 +383,36 @@ class ImagePreProcessor {
     } catch (e) {
       if (e is ImageProcessingFailure) rethrow;
       throw ImageProcessingFailure('Failed to create face composite: $e');
+    }
+  }
+
+  /// Applies rotation and flip transforms to the given [imageFile].
+  ///
+  /// [quarterTurns] specifies clockwise 90° increments (0–3).
+  /// [flipH] and [flipV] apply horizontal and vertical flips respectively.
+  ///
+  /// Returns a new [File] with the transformed image.
+  /// Throws an [ImageProcessingFailure] if the operation fails.
+  Future<File> applyTransforms(
+    File imageFile,
+    int quarterTurns,
+    bool flipH,
+    bool flipV,
+  ) async {
+    try {
+      final bytes = await imageFile.readAsBytes();
+
+      final transformedBytes = await compute(
+        _applyTransformsIsolate,
+        _TransformParams(bytes, quarterTurns, flipH, flipV),
+      );
+
+      if (transformedBytes == null) return imageFile;
+
+      return await _saveProcessedBytes(transformedBytes, "transformed");
+    } catch (e) {
+      if (e is ImageProcessingFailure) rethrow;
+      throw ImageProcessingFailure('Failed to apply transforms: $e');
     }
   }
 

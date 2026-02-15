@@ -5,6 +5,7 @@ import '../../../controllers/face_detection_controller.dart';
 import '../widgets/face_detection_screen/face_action_buttons.dart';
 import '../widgets/face_detection_screen/face_image_preview.dart';
 import '../widgets/face_detection_screen/face_pdf_button.dart';
+import '../widgets/face_detection_screen/face_transform_buttons.dart';
 
 /// Main screen for displaying face detection analysis results.
 ///
@@ -42,7 +43,11 @@ class FaceDetectionScreen extends GetView<FaceDetectionController> {
             const SizedBox(height: 10),
             const Expanded(child: FaceImagePreview()),
 
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
+
+            const FaceTransformButtons(),
+
+            const SizedBox(height: 16),
 
             const FacePdfButton(),
 

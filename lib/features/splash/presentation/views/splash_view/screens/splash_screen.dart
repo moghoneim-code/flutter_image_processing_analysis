@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 
 import '../../../../../../core/utils/constants/colors/app_colors.dart';
 import '../../../controllers/splash_controller.dart';
-import '../widgets/splash_logo.dart';
-import '../widgets/splash_title.dart';
+import '../widgets/splash_screen/splash_logo.dart';
+import '../widgets/splash_screen/splash_title.dart';
 
 /// Animated splash screen displayed on app launch.
 ///
