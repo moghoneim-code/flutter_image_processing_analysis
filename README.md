@@ -19,6 +19,14 @@ An intelligent image processing application built with Flutter that automaticall
 
 The entire codebase is fully documented with **DartDoc comments**. Hovering over any class, method, or constructor in your IDE will display a complete description of its purpose, behavior, and the parameters it expects. This applies to services, repositories, use cases, controllers, widgets, and models throughout the project.
 
+
+
+
+
+
+![image_processing_dart_doc_gif](https://github.com/user-attachments/assets/f0d30d7d-d414-4b5a-9155-85b49734da19)
+
+
 ## Architecture
 
 Clean Architecture with **GetX** for state management, routing, and dependency injection.
