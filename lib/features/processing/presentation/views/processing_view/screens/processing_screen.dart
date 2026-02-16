@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import '../../../../../../core/utils/constants/colors/app_colors.dart';
 import '../../../controllers/processing_controller.dart';
-import '../widgets/ambient_background_blur.dart';
-import '../widgets/processing_image_preview.dart';
-import '../widgets/processing_progress_bar.dart';
-import '../widgets/processing_status_text.dart';
+import '../widgets/processing_screen/ambient_background_blur.dart';
+import '../widgets/processing_screen/processing_image_preview.dart';
+import '../widgets/processing_screen/processing_progress_bar.dart';
+import '../widgets/processing_screen/processing_status_text.dart';
 
 /// Screen displayed during image analysis and processing.
 ///

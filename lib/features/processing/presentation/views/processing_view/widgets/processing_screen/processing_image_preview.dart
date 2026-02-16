@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_image_processing_analysis/features/processing/presentation/views/processing_view/widgets/scanning_line_effect.dart';
+import 'package:flutter_image_processing_analysis/features/processing/presentation/views/processing_view/widgets/processing_screen/scanning_line_effect.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 
-import '../../../../../../core/utils/constants/colors/app_colors.dart';
-import '../../../controllers/processing_controller.dart';
+import '../../../../../../../core/utils/constants/colors/app_colors.dart';
+import '../../../../controllers/processing_controller.dart';
 
 /// Preview widget showing the selected image with a scanning effect overlay.
 ///

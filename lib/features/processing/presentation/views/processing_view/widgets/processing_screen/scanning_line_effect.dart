@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../../../../core/utils/constants/colors/app_colors.dart';
+import '../../../../../../../core/utils/constants/colors/app_colors.dart';
 
 /// Animated scanning line that sweeps vertically across its parent.
 ///

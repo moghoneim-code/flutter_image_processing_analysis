@@ -24,4 +24,7 @@ class AppRoutes {
 
   /// Route path for the history detail screen.
   static const String historyDetail = '/history-detail';
+
+  /// Route path for the no-result screen when no content is detected.
+  static const String noResult = '/no-result';
 }

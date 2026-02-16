@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../../../core/utils/constants/colors/app_colors.dart';
+import '../../../../../../../core/utils/constants/colors/app_colors.dart';
 
 /// Decorative background widget with ambient glowing circles.
 ///

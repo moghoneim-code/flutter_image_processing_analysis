@@ -6,6 +6,7 @@ import '../../features/history_detail/presentation/views/history_detail_view/scr
 import '../../features/home/presentation/bindings/home_binding.dart';
 import '../../features/home/presentation/views/home_view/screens/home_screen.dart';
 import '../../features/processing/presentation/bindings/processing_binding.dart';
+import '../../features/processing/presentation/views/processing_view/screens/no_result_screen.dart';
 import '../../features/processing/presentation/views/processing_view/screens/processing_screen.dart';
 import '../../features/splash/presentation/bindings/splash_binding.dart';
 import '../../features/splash/presentation/views/splash_view/screens/splash_screen.dart';
@@ -57,6 +58,10 @@ class AppPages {
       name: AppRoutes.historyDetail,
       page: () => const HistoryDetailScreen(),
       binding: HistoryDetailBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.noResult,
+      page: () => const NoResultScreen(),
     ),
   ];
 }

@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:get/get.dart';
 import '../../../../config/routes/app_routes.dart';
 import '../../../../core/errors/error_handler.dart';
-import '../../../../core/helper/snackbar_helper.dart';
 import '../../../../core/utils/constants/enums/processing_type.dart';
 import '../../domain/use_cases/process_image_use_case.dart';
 import '../../domain/entities/processing_result.dart';
@@ -52,7 +51,10 @@ class ProcessingController extends GetxController {
       _updateUI(1.0, "Process Complete!");
       _handleNavigation(result);
     } catch (e) {
-      ErrorHandler.handle(e, fallbackMessage: 'Owl AI failed to process this image.');
+      ErrorHandler.handle(
+        e,
+        fallbackMessage: 'Owl AI failed to process this image.',
+      );
       Get.back();
     }
   }
@@ -75,9 +77,7 @@ class ProcessingController extends GetxController {
     } else if (result.type == ProcessingType.document) {
       route = AppRoutes.textRecognition;
     } else {
-      SnackBarHelper.showErrorMessage("No clear content found.");
-      Get.back();
-      return;
+      route = AppRoutes.noResult;
     }
 
     Get.offNamed(route, arguments: result);
